@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0b1021">
+    <meta name="description" content="من سيربح المليون حسنة — لعبة معلومات إسلامية ترفيهية مع لوحة متصدرين وتحدي يومي.">
+    <link rel="manifest" href="manifest.json">
+    <title>من سيربح المليون حسنة | النسخة الاحترافية</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #070b17;
+            --bg-2: #10182d;
+            --card: rgba(17, 27, 52, .88);
+            --card-2: rgba(26, 38, 70, .82);
+            --glass: rgba(255,255,255,.05);
+            --text: #fff;
+            --muted: #aab4cc;
+            --gold: #d4af37;
+            --gold-2: #f5e7a7;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #38bdf8;
+            --border: rgba(212,175,55,.42);
+            --shadow: 0 20px 60px rgba(0,0,0,.35);
+            --radius: 24px;
+        }
+        body.light {
+            --bg: #edf2f7;
+            --bg-2: #dfe7ef;
+            --card: rgba(255,255,255,.92);
+            --card-2: rgba(248,250,252,.95);
+            --glass: rgba(0,0,0,.04);
+            --text: #152033;
+            --muted: #5e6a7d;
+            --gold: #a67c10;
+            --gold-2: #d4af37;
+            --border: rgba(166,124,16,.38);
+            --shadow: 0 20px 60px rgba(15,23,42,.14);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            min-height: 100vh;
+            font-family: 'Cairo', sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 20% 10%, rgba(212,175,55,.12), transparent 28%),
+                radial-gradient(circle at 85% 30%, rgba(56,189,248,.08), transparent 26%),
+                radial-gradient(circle at 50% 100%, rgba(99,102,241,.08), transparent 35%),
+                linear-gradient(180deg, var(--bg-2), var(--bg));
+            overflow-x: hidden;
+            transition: background .3s ease, color .3s ease;
+        }
+        body.no-scroll { overflow: hidden; }
+        button, input { font: inherit; }
+        button { border: 0; }
+        button:focus-visible, input:focus-visible { outline: 3px solid rgba(56,189,248,.55); outline-offset: 2px; }
+        .shell { width: min(1100px, 100%); margin: 0 auto; padding: 18px 18px 40px; position: relative; z-index: 2; }
+        .topbar { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px; }
+        .brand-mini { display:flex; align-items:center; gap:10px; font-weight:900; color:var(--gold); }
+        .brand-mark { width:42px; height:42px; display:grid; place-items:center; border:1px solid var(--border); border-radius:14px; background:var(--glass); box-shadow: var(--shadow); }
+        .top-actions { display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+        .icon-btn, .ghost-btn { color:var(--text); background:var(--glass); border:1px solid var(--border); cursor:pointer; transition:.22s; }
+        .icon-btn { width:44px; height:44px; border-radius:14px; display:grid; place-items:center; }
+        .ghost-btn { padding:10px 14px; border-radius:14px; font-weight:800; }
+        .icon-btn:hover, .ghost-btn:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,.14); }
+        .hero { display:grid; gap:14px; margin-top:8px; }
+        .title-card { background:linear-gradient(135deg, rgba(212,175,55,.13), rgba(56,189,248,.06)); border:1px solid var(--border); border-radius:30px; padding:24px; box-shadow:var(--shadow); backdrop-filter: blur(12px); }
+        .title-row { display:flex; justify-content:space-between; align-items:end; gap:15px; flex-wrap:wrap; }
+        .title-card h1 { font-size:clamp(1.7rem, 4vw, 2.8rem); line-height:1.2; color:var(--gold); text-shadow:0 0 20px rgba(212,175,55,.18); }
+        .title-card p { color:var(--muted); margin-top:8px; }
+        .mode-badge { display:inline-flex; align-items:center; gap:7px; color:var(--gold-2); background:rgba(212,175,55,.1); border:1px solid var(--border); padding:8px 12px; border-radius:999px; font-weight:800; }
+        .status-row { display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; }
+        .stat-card { background:var(--card); border:1px solid rgba(255,255,255,.07); border-radius:18px; padding:14px; box-shadow:var(--shadow); }
+        .stat-label { color:var(--muted); font-size:.82rem; }
+        .stat-value { margin-top:3px; font-size:1.15rem; font-weight:900; }
+        .progress-wrap { margin-top:4px; }
+        .progress-track { height:10px; background:rgba(128,128,128,.18); border-radius:999px; overflow:hidden; border:1px solid rgba(255,255,255,.06); }
+        .progress-fill { height:100%; width:0%; background:linear-gradient(90deg, var(--gold), #f4d65d, var(--gold)); transition:width .35s ease; }
+        .main-grid { display:grid; grid-template-columns:minmax(0, 1fr) 280px; gap:16px; margin-top:16px; }
+        .question-card, .side-card { background:var(--card); border:1px solid rgba(255,255,255,.07); border-radius:var(--radius); box-shadow:var(--shadow); backdrop-filter:blur(10px); }
+        .question-card { padding:22px; }
+        .question-meta { display:flex; justify-content:space-between; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:14px; }
+        .pill { display:inline-flex; gap:7px; align-items:center; padding:7px 11px; border-radius:999px; background:var(--glass); border:1px solid rgba(255,255,255,.08); color:var(--muted); font-size:.84rem; font-weight:800; }
+        .timer-pill { color:var(--gold); border-color:var(--border); min-width:102px; justify-content:center; }
+        .timer-pill.danger { color:var(--danger); border-color:rgba(239,68,68,.45); animation:pulse 1s infinite; }
+        .question-number { color:var(--muted); font-weight:800; }
+        .question-text { min-height:145px; display:grid; place-items:center; text-align:center; padding:24px 18px; background:linear-gradient(180deg, var(--card-2), rgba(0,0,0,.07)); border:1px solid var(--border); border-radius:22px; font-size:clamp(1.2rem, 2.3vw, 1.6rem); line-height:1.8; font-weight:900; }
+        .options { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px; }
+        .option { position:relative; min-height:70px; display:flex; align-items:center; gap:12px; text-align:right; padding:15px 18px; color:var(--text); background:linear-gradient(135deg, rgba(12,20,40,.88), rgba(32,46,82,.88)); border:1px solid var(--border); border-radius:20px; cursor:pointer; transition:.2s; }
+        body.light .option { background:linear-gradient(135deg, #fff, #f4f7fb); }
+        .option:hover:not(:disabled) { transform:translateY(-2px); border-color:var(--gold); box-shadow:0 10px 24px rgba(212,175,55,.12); }
+        .option:disabled { cursor:not-allowed; }
+        .option-letter { width:36px; height:36px; flex:0 0 36px; display:grid; place-items:center; border-radius:12px; background:rgba(212,175,55,.11); color:var(--gold); font-weight:900; }
+        .option.correct { background:linear-gradient(135deg, rgba(34,197,94,.95), rgba(22,163,74,.9)); border-color:#9be8b5; color:white; }
+        .option.correct .option-letter, .option.wrong .option-letter { background:rgba(255,255,255,.18); color:#fff; }
+        .option.wrong { background:linear-gradient(135deg, rgba(239,68,68,.95), rgba(190,24,93,.9)); border-color:#fecaca; color:white; }
+        .option.eliminated { opacity:.18; transform:scale(.98); pointer-events:none; }
+        .option.pending { background:linear-gradient(135deg, rgba(245,158,11,.95), rgba(217,119,6,.9)); color:white; }
+        .side-card { padding:16px; }
+        .side-card h3 { color:var(--gold); margin-bottom:12px; }
+        .lifelines { display:grid; gap:10px; }
+        .life-btn { text-align:right; padding:13px 14px; border-radius:16px; color:var(--text); background:var(--glass); border:1px solid var(--border); cursor:pointer; font-weight:900; transition:.2s; }
+        .life-btn:hover:not(:disabled) { transform:translateX(-2px); }
+        .life-btn:disabled { opacity:.34; cursor:not-allowed; filter:grayscale(1); }
+        .safe-box { margin-top:14px; padding:14px; border-radius:18px; background:rgba(212,175,55,.07); border:1px dashed var(--border); }
+        .safe-box strong { display:block; color:var(--gold); font-size:1.25rem; margin-top:4px; }
+        .shortcuts { margin-top:16px; color:var(--muted); font-size:.8rem; line-height:1.8; }
+        .bottom-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+        .bottom-actions .ghost-btn { flex:1; min-width:140px; }
+        .modal { position:fixed; inset:0; background:rgba(2,6,23,.74); backdrop-filter:blur(10px); z-index:1000; display:none; padding:18px; overflow:auto; }
+        .modal.show { display:grid; place-items:center; }
+        .modal-card { width:min(680px, 100%); background:var(--card); border:1px solid var(--border); border-radius:26px; box-shadow:var(--shadow); padding:24px; animation:pop .25s ease; }
+        .modal-card.wide { width:min(900px,100%); }
+        .modal-header { display:flex; justify-content:space-between; align-items:center; gap:10px; }
+        .modal-title { color:var(--gold); font-size:1.4rem; font-weight:900; }
+        .close-btn { width:40px; height:40px; border-radius:12px; background:var(--glass); color:var(--text); cursor:pointer; border:1px solid var(--border); }
+        .form { display:grid; gap:11px; margin-top:18px; }
+        .input { width:100%; border-radius:14px; border:1px solid var(--border); background:var(--glass); color:var(--text); padding:13px 14px; }
+        .btn-primary { width:100%; padding:13px 16px; border-radius:15px; background:linear-gradient(135deg, #d4af37, #f0d26c); color:#111; font-weight:900; cursor:pointer; }
+        .btn-secondary { width:100%; padding:12px 16px; border-radius:15px; background:var(--glass); color:var(--text); border:1px solid var(--border); cursor:pointer; font-weight:900; }
+        .welcome-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:18px; }
+        .result-score { text-align:center; font-size:clamp(2rem,6vw,3.4rem); font-weight:900; color:var(--gold); margin:12px 0; }
+        .result-sub { text-align:center; color:var(--muted); }
+        .result-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:18px; }
+        .result-chip { padding:13px; border-radius:15px; background:var(--glass); border:1px solid rgba(255,255,255,.07); text-align:center; }
+        .result-chip strong { display:block; color:var(--gold); font-size:1.1rem; margin-top:3px; }
+        .share-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:15px; }
+        .share-btn { padding:12px 14px; border-radius:14px; color:white; cursor:pointer; font-weight:900; }
+        .wa { background:#25d366; } .fb { background:#1877f2; }
+        .leaderboard-tabs { display:flex; gap:8px; flex-wrap:wrap; margin:16px 0; }
+        .tab { padding:9px 13px; border-radius:999px; background:var(--glass); border:1px solid var(--border); color:var(--muted); cursor:pointer; font-weight:900; }
+        .tab.active { background:var(--gold); color:#111; border-color:var(--gold); }
+        .board { list-style:none; display:grid; gap:8px; max-height:430px; overflow:auto; }
+        .board-item { display:grid; grid-template-columns:52px 1fr auto; gap:10px; align-items:center; padding:11px 12px; border-radius:15px; background:var(--glass); border:1px solid rgba(255,255,255,.06); }
+        .rank { color:var(--gold); font-weight:900; }
+        .board-name { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .board-score { color:var(--gold); font-weight:900; white-space:nowrap; }
+        .profile { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:15px; }
+        .profile-card { padding:14px; border-radius:15px; background:var(--glass); border:1px solid rgba(255,255,255,.06); }
+        .profile-card span { display:block; color:var(--muted); font-size:.82rem; }
+        .profile-card strong { display:block; font-size:1.35rem; margin-top:3px; color:var(--gold); }
+        .achievement-list { display:grid; gap:8px; margin-top:14px; }
+        .achievement { display:flex; justify-content:space-between; align-items:center; padding:10px 12px; border-radius:14px; background:var(--glass); border:1px solid rgba(255,255,255,.06); }
+        .achievement.locked { opacity:.35; }
+        .toast { position:fixed; left:50%; bottom:22px; transform:translate(-50%, 18px); z-index:2000; padding:12px 16px; border-radius:999px; background:#111827; color:#fff; border:1px solid rgba(255,255,255,.1); box-shadow:var(--shadow); opacity:0; pointer-events:none; transition:.25s; max-width:min(92vw,680px); text-align:center; }
+        .toast.show { opacity:1; transform:translate(-50%,0); }
+        .confetti-layer { position:fixed; inset:0; pointer-events:none; z-index:1500; overflow:hidden; display:none; }
+        .confetti { position:absolute; width:9px; height:14px; top:-20px; animation:fall linear forwards; }
+        .audience-chart { display:grid; gap:10px; margin-top:15px; }
+        .bar-row { display:grid; grid-template-columns:34px 1fr 48px; gap:8px; align-items:center; }
+        .bar-track { height:14px; border-radius:999px; background:rgba(128,128,128,.2); overflow:hidden; }
+        .bar { height:100%; background:linear-gradient(90deg, var(--gold), #f5d96b); width:0; transition:width .7s ease; }
+        .empty { padding:25px; text-align:center; color:var(--muted); }
+        .small { font-size:.8rem; color:var(--muted); }
+        .danger-text { color:var(--danger); }
+        .success-text { color:var(--success); }
+        .kbd { display:inline-grid; place-items:center; min-width:24px; padding:1px 5px; border-radius:6px; background:var(--glass); border:1px solid var(--border); color:var(--text); }
+        @keyframes pop { from {opacity:0; transform:translateY(10px) scale(.98)} to {opacity:1; transform:translateY(0) scale(1)} }
+        @keyframes pulse { 50% { opacity:.48; } }
+        @keyframes fall { to { transform:translateY(110vh) rotate(720deg); opacity:0; } }
+        @media (max-width:900px) { .main-grid { grid-template-columns:1fr; } .side-card { order:2; } .lifelines { grid-template-columns:repeat(4,1fr); } }
+        @media (max-width:700px) { .status-row { grid-template-columns:1fr 1fr; } .options { grid-template-columns:1fr; } .result-grid { grid-template-columns:1fr 1fr 1fr; } .welcome-actions, .share-actions { grid-template-columns:1fr; } .lifelines { grid-template-columns:1fr 1fr; } }
+        @media (max-width:460px) { .shell { padding-inline:10px; } .title-card, .question-card, .side-card, .modal-card { border-radius:20px; } .result-grid, .profile { grid-template-columns:1fr 1fr; } .topbar { align-items:flex-start; } .brand-mini span { display:none; } }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; } }
+    </style>
+</head>
+<body>
+<div class="shell">
+    <header class="topbar">
+        <div class="brand-mini"><div class="brand-mark">👑</div><span>من سيربح المليون حسنة</span></div>
+        <div class="top-actions">
+            <button class="icon-btn" id="soundBtn" title="الصوت" aria-label="الصوت">🔊</button>
+            <button class="icon-btn" id="themeBtn" title="تبديل المظهر" aria-label="تبديل المظهر">🌓</button>
+            <button class="ghost-btn" id="dailyTopBtn">🔥 تحدي اليوم</button>
+            <button class="ghost-btn" id="leaderboardTopBtn">🏆 المتصدرون</button>
+            <button class="ghost-btn" id="profileTopBtn">👤 حسابي</button>
+        </div>
+    </header>
+
+    <main class="hero">
+        <section class="title-card">
+            <div class="title-row">
+                <div>
+                    <h1>من سيربح المليون حسنة</h1>
+                    <p>نسخة احترافية مع مؤقت، وسائل مساعدة، إنجازات، XP، تحدي يومي ولوحة متصدرين.</p>
+                </div>
+                <div class="mode-badge" id="modeBadge">🎲 لعبة عشوائية</div>
+            </div>
+            <div class="progress-wrap" aria-label="تقدم اللعبة"><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div></div>
+        </section>
+
+        <section class="status-row">
+            <div class="stat-card"><div class="stat-label">اللاعب</div><div class="stat-value" id="playerNameStat">-</div></div>
+            <div class="stat-card"><div class="stat-label">الرصيد</div><div class="stat-value" id="scoreStat">0</div></div>
+            <div class="stat-card"><div class="stat-label">المضمون</div><div class="stat-value" id="safeStat">0</div></div>
+            <div class="stat-card"><div class="stat-label">السلسلة</div><div class="stat-value" id="streakStat">0 🔥</div></div>
+        </section>
+
+        <section class="main-grid">
+            <div class="question-card">
+                <div class="question-meta">
+                    <div class="question-number" id="questionNumber">السؤال 1 / 10</div>
+                    <div class="pill" id="difficultyPill">سهل</div>
+                    <div class="pill timer-pill" id="timerPill">⏱ 00:30</div>
+                </div>
+                <div class="question-text" id="questionText">ابدأ اللعبة من القائمة للبدء.</div>
+                <div class="options" id="options"></div>
+                <div class="bottom-actions">
+                    <button class="ghost-btn" id="newGameBtn">🎮 لعبة جديدة</button>
+                    <button class="ghost-btn" id="logoutBtn">↪ تسجيل خروج</button>
+                </div>
+            </div>
+
+            <aside class="side-card">
+                <h3>🛠 وسائل المساعدة</h3>
+                <div class="lifelines">
+                    <button class="life-btn" id="life5050">⚖️ حذف إجابتين <span class="small">(M)</span></button>
+                    <button class="life-btn" id="lifeChange">🔄 تغيير السؤال <span class="small">(C)</span></button>
+                    <button class="life-btn" id="lifeHint">💡 تلميح <span class="small">(H)</span></button>
+                    <button class="life-btn" id="lifeAudience">👥 اسأل الجمهور <span class="small">(A)</span></button>
+                </div>
+                <div class="safe-box">المستوى المضمون<strong id="safeText">0 حسنة</strong><div class="small">أمان اللعبة يتحسن كلما تقدمت.</div></div>
+                <div class="shortcuts">اختصارات: <span class="kbd">1</span> <span class="kbd">2</span> <span class="kbd">3</span> <span class="kbd">4</span> للإجابات — <span class="kbd">M</span> <span class="kbd">C</span> <span class="kbd">H</span> <span class="kbd">A</span> للمساعدات.</div>
+            </aside>
+        </section>
+    </main>
+</div>
+
+<div class="modal show" id="authModal">
+    <div class="modal-card">
+        <div class="modal-header"><div class="modal-title">👤 تسجيل اللاعب</div></div>
+        <div class="small" style="margin-top:8px">استخدم اسماً فريداً وكلمة مرور لحفظ النتائج والإنجازات.</div>
+        <div class="form">
+            <input class="input" id="usernameInput" maxlength="24" autocomplete="username" placeholder="اسم اللاعب">
+            <input class="input" id="passwordInput" type="password" maxlength="64" autocomplete="current-password" placeholder="كلمة المرور">
+            <button class="btn-primary" id="authBtn">🚀 دخول / إنشاء حساب</button>
+            <div class="small">يمكنك اللعب محلياً حتى لو تعذر الاتصال بالسحابة، وستُحفظ النتيجة للمزامنة لاحقاً.</div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="welcomeModal">
+    <div class="modal-card">
+        <div class="modal-header"><div class="modal-title">مرحباً <span id="welcomeName">يا لاعب</span> 👑</div><button class="close-btn" data-close="welcomeModal">×</button></div>
+        <p class="small" style="margin-top:8px">اختر نمط اللعب.</p>
+        <div class="welcome-actions">
+            <button class="btn-primary" id="startClassicBtn">🎲 لعبة عشوائية</button>
+            <button class="btn-primary" id="startDailyBtn">🔥 تحدي اليوم</button>
+        </div>
+        <div class="profile" id="miniProfile"></div>
+    </div>
+</div>
+
+<div class="modal" id="resultsModal">
+    <div class="modal-card">
+        <div class="modal-header"><div class="modal-title" id="resultTitle">انتهت اللعبة!</div><button class="close-btn" data-close="resultsModal">×</button></div>
+        <div class="result-score" id="finalScore">0</div>
+        <div class="result-sub" id="resultSub">حسنة</div>
+        <div class="result-grid">
+            <div class="result-chip">✅ صحيحة<strong id="resultCorrect">0</strong></div>
+            <div class="result-chip">🔥 سلسلة<strong id="resultStreak">0</strong></div>
+            <div class="result-chip">⭐ XP<strong id="resultXP">0</strong></div>
+        </div>
+        <div id="resultAchievements" class="achievement-list"></div>
+        <div class="share-actions"><button class="share-btn wa" id="shareWhatsAppBtn">📱 واتساب</button><button class="share-btn fb" id="shareFacebookBtn">🌐 فيسبوك</button></div>
+        <div class="welcome-actions" style="margin-top:10px"><button class="btn-primary" id="playAgainBtn">🔄 لعب مرة أخرى</button><button class="btn-secondary" id="viewLeaderboardBtn">🏆 عرض المتصدرين</button></div>
+        <div class="small" id="saveStatus" style="margin-top:10px;text-align:center"></div>
+    </div>
+</div>
+
+<div class="modal" id="leaderboardModal">
+    <div class="modal-card wide">
+        <div class="modal-header"><div class="modal-title">🏆 لوحة المتصدرين</div><button class="close-btn" data-close="leaderboardModal">×</button></div>
+        <div class="leaderboard-tabs">
+            <button class="tab active" data-board="best">⭐ أفضل لعبة</button>
+            <button class="tab" data-board="today">🔥 اليوم</button>
+            <button class="tab" data-board="total">📈 التراكمي</button>
+        </div>
+        <ul class="board" id="leaderboardList"></ul>
+    </div>
+</div>
+
+<div class="modal" id="profileModal">
+    <div class="modal-card wide">
+        <div class="modal-header"><div class="modal-title">👤 ملف اللاعب</div><button class="close-btn" data-close="profileModal">×</button></div>
+        <div id="profileContent"></div>
+        <button class="btn-secondary" id="profileLogoutBtn" style="margin-top:14px">↪ تسجيل الخروج وتغيير اللاعب</button>
+    </div>
+</div>
+
+<div class="modal" id="audienceModal">
+    <div class="modal-card">
+        <div class="modal-header"><div class="modal-title">👥 رأي الجمهور</div><button class="close-btn" data-close="audienceModal">×</button></div>
+        <div class="small" style="margin-top:8px">توقع تقريبي للجمهور لهذه الجولة.</div>
+        <div class="audience-chart" id="audienceChart"></div>
+    </div>
+</div>
+
+<div class="modal" id="resumeModal">
+    <div class="modal-card">
+        <div class="modal-header"><div class="modal-title">⏯ استئناف اللعبة</div></div>
+        <p class="small" style="margin-top:8px">تم العثور على لعبة غير مكتملة. هل تريد المتابعة؟</p>
+        <div class="welcome-actions"><button class="btn-primary" id="resumeBtn">▶ متابعة</button><button class="btn-secondary" id="discardResumeBtn">🗑 بدء لعبة جديدة</button></div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="confetti-layer" id="confettiLayer"></div>
+
+<script>
+const easyQuestions = [
+    // --- القرآن وعلومه (1 إلى 50) ---
+    ["ما هي أطول سورة في القرآن الكريم؟", "سورة البقرة", "سورة آل عمران", "سورة النساء", "سورة الأعراف"],
+    ["ما هي السورة التي تعدل ثلث القرآن؟", "سورة الإخلاص", "سورة الفلق", "سورة الناس", "سورة الكوثر"],
+    ["ما هي أول سورة نزلت في القرآن؟", "سورة العلق", "سورة الفاتحة", "سورة المدثر", "سورة الإخلاص"],
+    ["ما هي أصغر سورة في القرآن الكريم؟", "سورة الكوثر", "سورة العصر", "سورة النصر", "سورة الإخلاص"],
+    ["ما هي السورة التي تسمى 'قلب القرآن'؟", "سورة يس", "سورة الرحمن", "سورة الملك", "سورة الواقعة"],
+    ["ما هي السورة التي تسمى 'عروس القرآن'؟", "سورة الرحمن", "سورة يس", "سورة الواقعة", "سورة الملك"],
+    ["كم عدد سور القرآن الكريم؟", "114 سورة", "112 سورة", "116 سورة", "120 سورة"],
+    ["كم عدد أجزاء القرآن الكريم؟", "30 جزءاً", "28 جزءاً", "32 جزءاً", "60 جزءاً"],
+    ["ما هي السورة التي تخلو من البسملة في أولها؟", "سورة التوبة", "سورة الأنفال", "سورة الرعد", "سورة النحل"],
+    ["ما هي السورة التي ذكرت فيها البسملة مرتين؟", "سورة النمل", "سورة البقرة", "سورة القصص", "سورة الإسراء"],
+    ["ما هي أعظم آية في القرآن الكريم؟", "آية الكرسي", "آية الدّين", "خواتيم سورة البقرة", "فاتحة الكتاب"],
+    ["ما هي السورة التي تُقرأ لتنجي من عذاب القبر؟", "سورة الملك", "سورة الواقعة", "سورة يس", "سورة الدخان"],
+    ["ما هي السورة التي تُقرأ يوم الجمعة لتنور ما بين الجمعتين؟", "سورة الكهف", "سورة الملك", "سورة الحجرات", "سورة الرحمن"],
+    ["ما هي أول كلمة نزلت في القرآن؟", "اقْرَأْ", "الْحَمْدُ", "نُون", "قُلْ"],
+    ["ما هي السورة التي سميت باسم حشرة؟", "سورة النحل / النمل / العنكبوت", "سورة البقرة", "سورة الكهف", "سورة الحج"],
+    ["ما هي السورة التي سميت باسم ركن من أركان الإسلام؟", "سورة الحج", "سورة الزكاة", "سورة الصيام", "سورة الشهادة"],
+    ["ما هي السورة التي بدأت بالقسم بالتين والزيتون؟", "سورة التين", "سورة العاديات", "سورة الفجر", "سورة البلد"],
+    ["في أي سورة وردت آية الكرسي؟", "سورة البقرة", "سورة آل عمران", "سورة النساء", "سورة المائدة"],
+    ["ما هي السورة التي نزلت في وصف الكوثر ونهر الجنة؟", "سورة الكوثر", "سورة الضحى", "سورة الفلق", "سورة الناس"],
+    ["كم عدد السجدات في القرآن الكريم؟", "15 سجدة", "14 سجدة", "12 سجدة", "10 سجدات"],
+    ["ما هو الكتاب الذي أنزله الله على نبينا محمد ﷺ؟", "القرآن الكريم", "الإنجيل", "التوراة", "الزبور"],
+    ["كم عدد الآيات في سورة الفاتحة؟", "سبع آيات", "ست آيات", "ثمن آيات", "خمس آيات"],
+    ["ما هي السورة التي تسمى 'الفاضحة'؟", "سورة التوبة", "سورة المنافقون", "سورة الأنفال", "سورة الأحزاب"],
+    ["ما هي السورة التي تسمى 'المنجية'؟", "سورة الملك", "سورة الواقعة", "سورة يس", "سورة الرحمن"],
+    ["ما هي السورة التي تعدل ربع القرآن؟", "سورة الكافرون", "سورة النصر", "سورة الزلزلة", "سورة الإخلاص"],
+    ["ما هي السورة التي تنتهي جميع آياتها بحرف الدال؟", "سورة الإخلاص", "سورة الفلق", "سورة الناس", "سورة الكافرون"],
+    ["ما هي السورة التي تنتهي فواصل آياتها بحرف النون والميم غالباً كـ الناس والفلق؟", "سورة الناس", "سورة القارعة", "سورة التكاثر", "سورة العصر"],
+    ["ما هي السورة التي سميت باسم وقت من أوقات النهار؟", "سورة الضحى / العصر / الفجر", "سورة البقرة", "سورة النساء", "سورة النور"],
+    ["ما هو الحيوان الذي ذُكر في قصة سورة البقرة؟", "البقرة", "الكلب", "الذئب", "الفيل"],
+    ["من هو المَلَك الموكل بإنزال الوحي؟", "جبريل عليه السلام", "ميكائيل عليه السلام", "إسرافيل عليه السلام", "ملك الموت"],
+    ["ما هي السورة التي بدأت بالقسم بالتين والزيتون؟", "سورة التين", "سورة العصر", "سورة القدر", "سورة الفجر"],
+    ["ما هي السورة التي تسمى 'سورة النساء الصغرى'؟", "سورة الطلاق", "سورة النور", "سورة المجادلة", "سورة مريم"],
+    ["كم مرة ذكرت كلمة 'الجنة' في القرآن الكريم؟", "66 مرة", "70 مرة", "100 مرة", "50 مرة"],
+    ["كم مرة ذكرت كلمة 'النار' في القرآن الكريم؟", "126 مرة", "80 مرة", "114 مرة", "200 مرة"],
+    ["ما هي السورة التي ذكر فيها اسم الله في كل آية من آياتها؟", "سورة المجادلة", "سورة الإخلاص", "سورة النور", "سورة الجمعة"],
+    ["ما هي السورة التي تبدأ بـ 'تَبَارَكَ الَّذِي'؟", "سورة الملك (والفرقان)", "سورة المزمل", "سورة المدثر", "سورة الجن"],
+    ["ما هي السورة التي تصف قيامة الناس والزلزلة؟", "سورة الزلزلة", "سورة القارعة", "سورة القيامة", "جميع ما سبق"],
+    ["ما هو الجزء الذي يحتوي على سورة عمّ (النبأ)؟", "الجزء الثلاثون (جزء عم)", "الجزء الأول", "الجزء الخامس عشر", "الجزء العشرين"],
+    ["ما هو الجزء الذي يحتوي على سورة البقرة كاملة؟", "الجزء الأول والثاني", "الجزء الثلاثون", "الجزء العاشر", "الجزء الخامس"],
+    ["ما هي السورة التي ذكرت فيها قصص ذي القرنين وموسى وأصحاب الكهف؟", "سورة الكهف", "سورة الأنبياء", "سورة القصص", "سورة الإسراء"],
+    ["ما هي السورة التي سميت باسم قبيلة من قبائل العرب؟", "سورة قريش", "سورة هود", "سورة إبراهيم", "سورة لقمان"],
+    ["ما هي السورة التي تبدأ بالحرفين المقطعين 'طه'؟", "سورة طه", "سورة يس", "سورة ص", "سورة ق"],
+    ["ما هي السورة التي تبدأ بحرف 'ص'؟", "سورة ص", "سورة القلم", "سورة المدثر", "سورة الحجر"],
+    ["ما هي السورة التي تبدأ بحرف 'ق'؟", "سورة ق", "سورة الكوثر", "سورة القارعة", "سورة القيامة"],
+    ["ما هي السورة التي سميت باسم والدة عيسى عليه السلام؟", "سورة مريم", "سورة النساء", "سورة المجادلة", "سورة التوبة"],
+    ["ما هي السورة التي سميت باسم نبي من أولى العزم؟", "سورة إبراهيم / نوح / محمد / يونس", "سورة يوسف", "سورة هود", "جميع ما سبق"],
+    ["ما هي السورة التي سميت باسم لقمان الحكيم؟", "سورة لقمان", "سورة الحجرات", "سورة الحشر", "سورة الحديد"],
+    ["ما هي السورة التي سميت باسم معدن أو عنصر؟", "سورة الحديد", "سورة البقرة", "سورة النور", "سورة الواقعة"],
+    ["ما هي السورة التي تسمى 'سورة بني إسرائيل'؟", "سورة الإسراء", "سورة البقرة", "سورة الأعراف", "سورة المائدة"],
+    ["ما هي السورة التي نزلت في صلح الحديبية أو فتح مكة؟", "سورة الفتح", "سورة التوبة", "سورة الأنفال", "سورة محمد"],
+
+    // --- الإيمان والتوحيد والعبادات (51 إلى 100) ---
+    ["كم عدد أركان الإسلام؟", "خمسة أركان", "ستة أركان", "أربعة أركان", "سبعة أركان"],
+    ["كم عدد أركان الإيمان؟", "ستة أركان", "خمسة أركان", "سبعة أركان", "ثلاثة أركان"],
+    ["ما هو الركن الأول من أركان الإسلام؟", "شهادة أن لا إله إلا الله وأن محمداً رسول الله", "إقام الصلاة", "إيتاء الزكاة", "حج البيت"],
+    ["ما هو الركن الثاني من أركان الإسلام؟", "إقام الصلاة", "إيتاء الزكاة", "صوم رمضان", "حج البيت"],
+    ["ما هو الركن الثالث من أركان الإسلام؟", "إيتاء الزكاة", "صوم رمضان", "حج البيت", "إقام الصلاة"],
+    ["ما هو الركن الرابع من أركان الإسلام؟", "صوم رمضان", "إيتاء الزكاة", "حج البيت", "الصلاة"],
+    ["ما هو الركن الخامس من أركان الإسلام؟", "حج البيت من استطاع إليه سبيلا", "صوم رمضان", "الجهاد في سبيل الله", "عمرة البيت"],
+    ["ما هي الصلاة التي تُصلى بدون ركوع ولا سجود؟", "صلاة الجنازة", "صلاة العيد", "صلاة الاستسقاء", "صلاة الخسوف"],
+    ["كم عدد الصلوات المفروضة في اليوم والليلة؟", "خمس صلوات", "ثلاث صلوات", "سبع صلوات", "أربع صلوات"],
+    ["ما هي الصلاة التي تسمى 'الصلاة الوسطى' بحسب الراجح؟", "صلاة العصر", "صلاة الفجر", "صلاة المغرب", "صلاة الظهر"],
+    ["ما هو الشهر الذي فرض فيه الصيام على المسلمين؟", "شهر رمضان", "شهر شعبان", "شهر رجب", "شهر ذو الحجة"],
+    ["ما هو أول أركان الإيمان؟", "الإيمان بالله", "الإيمان بالملائكة", "الإيمان بالكتب السماوية", "الإيمان بالرسل"],
+    ["من هو المَلَك الموكل بنفخ الصور؟", "إسرافيل عليه السلام", "جبريل عليه السلام", "ميكائيل عليه السلام", "ملك الموت"],
+    ["من هو المَلَك الموكل بقبض الأرواح؟", "ملك الموت", "جبريل عليه السلام", "ميكائيل عليه السلام", "رضوان"],
+    ["ما اسم خازن الجنة؟", "رضوان", "مالك", "جبريل", "إسرافيل"],
+    ["ما اسم خازن النار (جهنم)؟", "مالك", "رضوان", "زبانية", "نكير"],
+    ["ما هو أول ما يحاسب عليه العبد يوم القيامة؟", "الصلاة", "الزكاة", "الصيام", "بر الوالدين"],
+    ["ما هي الفريضة التي فرضت في السماء ليلة الإسراء والمعراج؟", "الصلاة", "الصيام", "الزكاة", "الحج"],
+    ["في أي سنة هجرية فُرض صيام شهر رمضان؟", "السنة الثانية للهجرة", "السنة الأولى للهجرة", "السنة الثالثة للهجرة", "السنة الرابعة للهجرة"],
+    ["ما هو اتجاه القبلة للمسلمين في الصلاة؟", "الكعبة المشرفة (المسجد الحرام)", "المسجد الأقصى", "المسجد النبوي", "مسجد قباء"],
+    ["ما هو أول مسجد بني في الإسلام؟", "مسجد قباء", "المسجد النبوي", "المسجد الحرام", "المسجد الأقصى"],
+    ["كم عدد تكبيرات صلاة العيد (الفطر والأضحى) في الركعة الأولى؟", "سبع تكبيرات", "خمس تكبيرات", "أربع تكبيرات", "ثلاث تكبيرات"],
+    ["كم عدد تكبيرات صلاة العيد في الركعة الثانية؟", "خمس تكبيرات", "سبع تكبيرات", "أربع تكبيرات", "تكبيرتان"],
+    ["ما هي الصلاة التي تصلى لطلب نزول المطر؟", "صلاة الاستسقاء", "صلاة الكسوف", "صلاة الاستخارة", "صلاة التهجد"],
+    ["ما هي الصلاة التي تصلى عند احتجاب الشمس؟", "صلاة الكسوف", "صلاة الخسوف", "صلاة العيد", "صلاة الضحى"],
+    ["ما هي الصلاة التي تصلى عند احتجاب القمر؟", "صلاة الخسوف", "صلاة الكسوف", "صلاة الاستسقاء", "صلاة الوتر"],
+    ["ما هو حكم أداء الصلاة في وقتها؟", "فرض عين على كل مسلم مكلف", "سنة مؤكدة", "مستحب", "فَرْض كفاية"],
+    ["ما هو نصاب الذهب الشرعي لوجوب الزكاة؟", "85 جراماً من الذهب الخالص", "50 جراماً", "100 جرام", "200 جرام"],
+    ["كم تبلغ نسبة الزكاة المفروضة في الأموال النقدية والذهب والفضة؟", "2.5 بالمئة (ربع العشر)", "10 بالمئة", "5 بالمئة", "20 بالمئة"],
+    ["ما هو اسم الصدقة الواجبة في نهاية شهر رمضان؟", "زكاة الفطر", "صدقة السر", "فدية الصيام", "الصدقة الجارية"],
+    ["ما هو اليوم الذي يستحب فيه صيام عاشوراء؟", "اليوم العاشر من محرم", "اليوم التاسع من ذي الحجة", "اليوم الأول من محرم", "يوم الجمعة"],
+    ["ما هو اليوم الذي يستحب فيه صيام يوم عرفة لغير الحاج؟", "اليوم التاسع من ذي الحجة", "اليوم العاشر من ذي الحجة", "يوم عيد الأضحى", "يوم الجمعة"],
+    ["ما هو عدد أيام عيدي الفطر والأضحى؟", "عيد الفطر يوم واحد، وعيد الأضحى أربعة أيام", "كل عيد يوم واحد", "كل عيد ثلاثة أيام", "أسبوع لكل عيد"],
+    ["ما هي الليلة التي أنزل فيها القرآن وهي خير من ألف شهر؟", "ليلة القدر", "ليلة النصف من شعبان", "ليلة الإسراء والمعراج", "ليلة العيد"],
+    ["في أي عشر من شهر رمضان تطلب ليلة القدر؟", "العشر الأواخر من رمضان", "العشر الأوائل", "العشر الأوسط", "طوال الشهر"],
+    ["ما هو الدعاء الأعظم للاستغفار (سيد الاستغفار)؟", "اللهم أنت ربي لا إله إلا أنت...", "رب اغفر لي وتب علي...", "استغفر الله العظيم...", "اللهم إني ظلمت نفسي..."],
+    ["ما هو الذكر الذي يثقل الميزان ويحبه الرحمن؟", "سبحان الله وبحمده، سبحان الله العظيم", "لا إله إلا الله", "الحمد لله", "الله أكبر"],
+    ["ما هي أفضل الصلوات بعد الصلاة المكتوبة؟", "صلاة قيام الليل (صلاة الليل)", "صلاة الضحى", "صلاة السنة الراتبة", "صلاة الاستخارة"],
+    ["ما هو حكم بر الوالدين في الإسلام؟", "فرض وعظيم من أعظم الطاعات", "مستحب", "سنة", "مباح"],
+    ["ما هو أبغض الحلال عند الله؟", "الطلاق", "التبذير", "الخصام", "النوم طول النهار"],
+    ["ما هو اسم الغار الذي نزل فيه الوحي لأول مرة؟", "غار حراء", "غار ثور", "غار الطاق", "غار سلع"],
+    ["ما هو اسم الغار الذي اختبأ فيه النبي وأبو بكر وقت الهجرة؟", "غار ثور", "غار حراء", "جبل أحد", "جبل النور"],
+    ["ما هي الشجرة التي تُعدّ مباركة وذكرت في القرآن؟", "شجرة الزيتون", "شجرة التين", "شجرة النخيل", "شجرة الرمان"],
+    ["ما هو المشروب الذي جعله الله شفاء للناس في القرآن؟", "العسل", "لبن النوق", "ماء زمزم", "زيت الزيتون"],
+    ["ما هي أفضل بقاع الأرض عند الله سبحانه وتعالى؟", "المساجد (وأحبها المسجد الحرام والنبوي والأقصى)", "البيوت", "الجبال", "الأسواق"],
+    ["من هو أول من أذّن في الإسلام؟", "بلال بن رباح رضي الله عنه", "عمر بن الخطاب", "أبو بكر الصديق", "علي بن أبي طالب"],
+    ["ما هي قبلة المسلمين قبل تحويلها إلى الكعبة؟", "المسجد الأقصى في القدس", "مسجد قباء", "المسجد الحرام", "مسجد الخندق"],
+    ["كم سنة استمرت دعوة النبي محمد ﷺ في مكة المكرمة؟", "13 سنة", "10 سنوات", "15 سنة", "23 سنة"],
+    ["كم سنة استمرت دعوة النبي محمد ﷺ في المدينة المنورة؟", "10 سنوات", "13 سنة", "15 سنة", "8 سنوات"],
+    ["ما هو إجمالي عدد سنوات نزول القرآن الكريم؟", "23 سنة", "20 سنة", "25 سنة", "10 سنوات"],
+
+    // --- السيرة النبوية والتاريخ (101 إلى 150) ---
+    ["ما هو اسم نبينا محمد ﷺ كاملاً؟", "محمد بن عبد الله بن عبد المطلب", "محمد بن عبد المطلب بن هاشم", "محمد بن هاشم بن عبد مناف", "محمد بن عبد الله بن هاشم"],
+    ["ما اسم والدة النبي محمد ﷺ؟", "آمنة بنت وهب", "حليمة السعدية", "فاطمة بنت أسد", "خديجة بنت خويلد"],
+    ["ما اسم والد النبي محمد ﷺ؟", "عبد الله", "عبد المطلب", "أبو طالب", "حمزة"],
+    ["من هو جد النبي محمد ﷺ الذي كفله بعد وفاة أمه؟", "عبد المطلب", "أبو طالب", "هاشم", "أبو لهب"],
+    ["من هو عم النبي ﷺ الذي كفله وحماه بعد وفاة جده؟", "أبو طالب", "أبو لهب", "العباس", "حمزة"],
+    ["في أي عام ولد النبي محمد ﷺ؟", "عام الفيل", "عام الحزن", "عام الرمادة", "عام الهجرة"],
+    ["في أي شهر هجري ولد النبي محمد ﷺ؟", "شهر ربيع الأول", "شهر رمضان", "شهر محرم", "شهر رجب"],
+    ["ما هو اللقب الذي أطلقته قريش على النبي ﷺ قبل البعثة؟", "الصادق الأمين", "الفاروق", "الصديق", "الكريم"],
+    ["كم كان عمر النبي ﷺ عندما نزل عليه الوحي؟", "40 سنة", "35 سنة", "45 سنة", "50 سنة"],
+    ["من هي أول زوجة تزوجها النبي محمد ﷺ؟", "خديجة بنت خويلد", "عائشة بنت أبي بكر", "حفصة بنت عمر", "سودة بنت زمعة"],
+    ["ما اسم قبيلة النبي محمد ﷺ؟", "قريش", "هوازن", "ثقيف", "تميم"],
+    ["ما اسم الناقة التي هاجر عليها النبي ﷺ إلى المدينة؟", "القصواء", "الجدعاء", "العضباء", "الشهباء"],
+    ["من هو الصحابي الذي رافق النبي ﷺ في رحلة الهجرة؟", "أبو بكر الصديق", "عمر بن الخطاب", "علي بن أبي طالب", "عثمان بن عفان"],
+    ["من هو الصحابي الذي نام في فراش النبي ليلة الهجرة؟", "علي بن أبي طالب", "أبو بكر الصديق", "عمار بن ياسر", "صهيب الرومي"],
+    ["ما هي أول غزوة خاضها المسلمون؟", "غزوة بدر الكبرى", "غزوة أحد", "غزوة الخندق", "غزوة تبوك"],
+    ["في أي سنة هجرية وقعت غزوة بدر الكبرى؟", "السنة الثانية للهجرة", "السنة الأولى للهجرة", "السنة الثالثة للهجرة", "السنة الرابعة للهجرة"],
+    ["ما هي الغزوة التي خسر فيها المسلمون بسبب مخالفة الرماة؟", "غزوة أحد", "غزوة بدر", "غزوة حنين", "غزوة تبوك"],
+    ["ما هي الغزوة التي تسمى غزوة 'الأحزاب'؟", "غزوة الخندق", "غزوة بدر", "غزوة تبوك", "غزوة مؤتة"],
+    ["في أي عام هجري تم فتح مكة المكرمة؟", "السنة الثامنة للهجرة", "السنة السابعة للهجرة", "السنة العاشرة للهجرة", "السنة التاسعة للهجرة"],
+    ["ما هي آخر غزوة قادها النبي محمد ﷺ؟", "غزوة تبوك", "غزوة حنين", "غزوة مؤتة", "غزوة الطائف"],
+    ["كم عدد بنات النبي محمد ﷺ؟", "أربع بنات", "ثلاث بنات", "خمس بنات", "بنتان"],
+    ["ما أسماء بنات النبي محمد ﷺ؟", "فاطمة، زينب، رقية، أم كلثوم", "فاطمة، مريم، آسيا، خديجة", "زينب، عائشة، حفصة، سودة", "رقية، أم كلثوم، ميمونة، جويرية"],
+    ["من هي فاطمة الزهراء بالنسبة للنبي ﷺ؟", "أصغر بناته وزوجة علي بن أبي طالب", "أمه", "أخته", "زوجته"],
+    ["من هو الصحابي الملقب بـ 'سيف الله المسلول'؟", "خالد بن الوليد", "علي بن أبي طالب", "حمزة بن عبد المطلب", "عمر بن الخطاب"],
+    ["من هو الصحابي الملقب بـ 'الفاروق'؟", "عمر بن الخطاب", "أبو بكر الصديق", "عثمان بن عفان", "علي بن أبي طالب"],
+    ["من هو الصحابي الملقب بـ 'ذي النورين' لتزوجه ابنتي النبي؟", "عثمان بن عفان", "علي بن أبي طالب", "عمر بن الخطاب", "طلحة بن عبيد الله"],
+    ["من هو خليفة رسول الله ﷺ الأول؟", "أبو بكر الصديق", "عمر بن الخطاب", "علي بن أبي طالب", "عثمان بن عفان"],
+    ["من هو الخليفة الراشد الثاني؟", "عمر بن الخطاب", "أبو بكر الصديق", "عثمان بن عفان", "علي بن أبي طالب"],
+    ["من هو الخليفة الراشد الثالث؟", "عثمان بن عفان", "عمر بن الخطاب", "علي بن أبي طالب", "أبو بكر الصديق"],
+    ["من هو الخليفة الراشد الرابع؟", "علي بن أبي طالب", "عثمان بن عفان", "عمر بن الخطاب", "أبو بكر الصديق"],
+    ["كم استمرت خلافة أبي بكر الصديق رضي الله عنه؟", "سنتان وثلاثة أشهر", "عشر سنوات", "أربع سنوات", "ستة أشهر"],
+    ["ما سبب وفاة النبي ﷺ؟", "المرض الشديد (الحمى في بيت عائشة)", "في المعركة", "بسُم اليهود", "الشيخوخة الطبيعية"],
+    ["في أي شهر هجري توفي النبي محمد ﷺ؟", "شهر ربيع الأول", "شهر رمضان", "شهر محرم", "شهر ذو الحجة"],
+    ["أين دفن النبي محمد ﷺ؟", "في غرفة عائشة رضي الله عنها بالمسجد النبوي", "في البقيع", "في مكة المكرمة", "في بيت علي بن أبي طالب"],
+    ["ما اسم خادم رسول الله ﷺ الخاص الذي خدمه 10 سنوات؟", "أنس بن مالك", "أبو هريرة", "عبد الله بن مسعود", "بلال بن رباح"],
+    ["من هو أكثر الصحابة رواية لأحاديث النبي ﷺ؟", "أبو هريرة رضي الله عنه", "عمر بن الخطاب", "عائشة بنت أبي بكر", "عبد الله بن عمر"],
+    ["من هي أم المؤمنين الملقبة بـ 'حبيبة رسول الله' أو الزوجة العالمة؟", "عائشة بنت أبي بكر", "حفصة بنت عمر", "أم سلمة", "زينب بنت جحش"],
+    ["ما قصة رقية وأم كلثوم بالنسبة لعثمان بن عفان؟", "تزوجهن تباعاً (واحدة بعد الأخرى)", "أخواته", "بناته بالرضاعة", "عماته"],
+    ["ما هي المعجزة الكبرى للنبي محمد ﷺ؟", "القرآن الكريم", "انشقاق القمر", "الإسراء والمعراج", "حنين الجذع"],
+    ["ما هي رحلة النبي ليلاً من المسجد الحرام إلى المسجد الأقصى؟", "الإسراء", "المعراج", "الهجرة", "السرايا"],
+    ["ما هي رحلة النبي صعوداً من المسجد الأقصى إلى السموات العلى؟", "المعراج", "الإسراء", "الهجرة", "العمرة"],
+    ["ما اسم الدابة التي ركبها النبي ليلة الإسراء والمعراج؟", "البراق", "القصواء", "الجدعاء", "الدلدل"],
+    ["من هو عم النبي الذي نزلت في ذمه سورة كاملة؟", "أبو لهب", "أبو طالب", "العباس", "حمزة"],
+    ["ما اسم زوجة أبو لهب التي ذُمّت في القرآن؟", "أم جميل", "هند بنت عتبة", "سمية", "أسماء"],
+    ["في أي عام هجري كانت حجة الوداع؟", "العام العاشر للهجرة", "العام التاسع للهجرة", "العام الحادي عشر", "العام الثامن"],
+    ["كم كان عمر النبي ﷺ عند وفاته؟", "63 سنة", "60 سنة", "65 سنة", "70 سنة"],
+    ["ما اسم بطن أو عشيرة النبي محمد ﷺ في قريش؟", "بني هاشم", "بني أمية", "بني مخزوم", "بني أسد"],
+    ["من هي رضعية النبي محمد ﷺ وحاضنته من بني سعد؟", "حليمة السعدية", "ثويبة", "أم أيمن", "سمية"],
+    ["من هو الصحابي الذي أشار على النبي بحفر الخندق؟", "سلمان الفارسي", "عمر بن الخطاب", "أبو بكر الصديق", "حذيفة بن اليمان"],
+    ["ما هي عاصمة الخلافة الإسلامية في عهد عثمان وعلي رضي الله عنهما؟", "المدينة المنورة", "مكة المكرمة", "دمشق", "الكوفة"],
+
+    // --- الأنبياء وقصص القرآن (151 إلى 200) ---
+    ["من هو أبو الأنبياء؟", "إبراهيم عليه السلام", "نوح عليه السلام", "آدم عليه السلام", "إدريس عليه السلام"],
+    ["من هو أول الأنبياء والرسل على وجه الأرض؟", "آدم عليه السلام", "نوح عليه السلام", "إدريس عليه السلام", "شيث عليه السلام"],
+    ["من هو النبي الذي صُنع في عهده الفلك (السفينة)?", "نوح عليه السلام", "إبراهيم عليه السلام", "موسى عليه السلام", "هود عليه السلام"],
+    ["من هو النبي الذي ألقي في النار فجعلها الله برداً وسلاماً؟", "إبراهيم عليه السلام", "موسى عليه السلام", "عيسى عليه السلام", "يونس عليه السلام"],
+    ["من هو النبي الذي ابتلعه الحوت في بطنه؟", "يونس عليه السلام", "أيوب عليه السلام", "زكريا عليه السلام", "يحيى عليه السلام"],
+    ["ما هو الكتاب الذي أنزل على النبي موسى عليه السلام؟", "التوراة", "الإنجيل", "الزبور", "الصحف"],
+    ["ما هو الكتاب الذي أنزل على النبي داود عليه السلام؟", "الزبور", "التوراة", "الإنجيل", "القرآن"],
+    ["ما هو الكتاب الذي أنزل على النبي عيسى عليه السلام؟", "الإنجيل", "التوراة", "الزبور", "الصحف"],
+    ["من هو النبي الملقب بـ 'كليم الله'؟", "موسى عليه السلام", "إبراهيم عليه السلام", "عيسى عليه السلام", "محمد ﷺ"],
+    ["من هو النبي الملقب بـ 'خليل الله'؟", "إبراهيم عليه السلام", "محمد ﷺ", "موسى عليه السلام", "نوح عليه السلام"],
+    ["من هو النبي الذي آتاه الله ملكاً لا ينبغي لأحد من بعده؟", "سليمان عليه السلام", "داود عليه السلام", "يوسف عليه السلام", "ذو القرنين"],
+    ["من هو النبي الذي ألان الله له الحديد وجعل له الجبال يسبحن معه؟", "داود عليه السلام", "سليمان عليه السلام", "موسى عليه السلام", "إبراهيم عليه السلام"],
+    ["من هو النبي الذي كان يفهم ويجيد لغة الطير والحيوانات؟", "سليمان عليه السلام", "داود عليه السلام", "يوسف عليه السلام", "نوح عليه السلام"],
+    ["من هو النبي الذي ابتلي بمرض شديد صبر عليه طويلاً؟", "أيوب عليه السلام", "يونس عليه السلام", "يعقوب عليه السلام", "زكريا عليه السلام"],
+    ["من هو النبي الذي أُعطي شطر الحسن (الجمال)؟", "يوسف عليه السلام", "يحيى عليه السلام", "عيسى عليه السلام", "إسماعيل عليه السلام"],
+    ["من هو النبي الذي كفل مريم ابنة عمران؟", "زكريا عليه السلام", "يحيى عليه السلام", "عيسى عليه السلام", "عمران"],
+    ["من هو والد نبي الله يوسف عليه السلام؟", "يعقوب عليه السلام", "إسحاق عليه السلام", "إبراهيم عليه السلام", "لوط عليه السلام"],
+    ["كم عدد إخوة يوسف عليه السلام الأبناء الآخرين ليعقوب؟", "أحد عشر أخاً", "عشرة إخوة", "اثنا عشر أخاً", "تسعة إخوة"],
+    ["من هو النبي الذي أُرسل إلى قوم عاد؟", "هود عليه السلام", "صالح عليه السلام", "شعيب عليه السلام", "لوط عليه السلام"],
+    ["من هو النبي الذي أُرسل إلى ثمود؟", "صالح عليه السلام", "هود عليه السلام", "شعيب عليه السلام", "إبراهيم عليه السلام"],
+    ["ما هي المعجزة التي أُعطيت لنبي الله صالح لقومه؟", "ناقة الله", "عصاه", "الطوفان", "السفينة"],
+    ["من هو النبي الذي أُرسل إلى قوم مدين؟", "شعيب عليه السلام", "لوط عليه السلام", "هود عليه السلام", "صالح عليه السلام"],
+    ["من هو النبي الذي أُرسل إلى قوم سدوم؟", "لوط عليه السلام", "إبراهيم عليه السلام", "شعيب عليه السلام", "هود عليه السلام"],
+    ["ما هو اسم الجبل الذي رست عليه سفينة نوح عليه السلام؟", "جبل الجودي", "جبل الطور", "جبل أحد", "جبل حراء"],
+    ["في أي مكان تقابل موسى عليه السلام مع العبد الصالح (الخضر)؟", "مجمع البحرين", "وادي طوى", "جبل الطور", "أرض مصر"],
+    ["ما اسم الملك الظالم الذي عاصر موسى عليه السلام؟", "فرعون", "النمرود", "هامان", "جالوت"],
+    ["من هو وزير فرعون الذي ذكر في القرآن؟", "هامان", "قارون", "السامري", "جالوت"],
+    ["من هو الرجل الغني من قوم موسى الذي خسف الله به الأرض؟", "قارون", "هامان", "فرعون", "السامري"],
+    ["من هو الذي صنع العجل لبني إسرائيل ليعبدوه؟", "السامري", "قارون", "هامان", "فرعون"],
+    ["كم عدد الأنبياء والرسل الذين ذكروا صراحة في القرآن الكريم؟", "25 نبياً ورسولاً", "100 نبياً", "114 نبياً", "10 أنبياء"],
+    ["من هو النبي الملقب بـ 'ذي النون'؟", "يونس عليه السلام", "أيوب عليه السلام", "إدريس عليه السلام", "إلياس عليه السلام"],
+    ["من هو النبي الذي ولد من غير أب؟", "عيسى عليه السلام", "آدم عليه السلام", "يحيى عليه السلام", "إسماعيل عليه السلام"],
+    ["من هو النبي الذي بشّرت الملائكة أباه بولادته واسمه يحيى؟", "زكريا عليه السلام", "إبراهيم عليه السلام", "يعقوب عليه السلام", "لوط عليه السلام"],
+    ["ما اسم أم نبي الله إسماعيل عليه السلام؟", "هاجر", "سارة", "روبي", "راحيل"],
+    ["ما اسم زوجة نبي الله إبراهيم وأم إسحاق عليهما السلام؟", "سارة", "هاجر", "قطورة", "مريم"],
+    ["من هو الابن الذبيح لإبراهيم عليه السلام على الراجح؟", "إسماعيل عليه السلام", "إسحاق عليه السلام", "يعقوب عليه السلام", "يوسف عليه السلام"],
+    ["ما هو الطائر الذي تكلم مع سليمان عليه السلام وأخبره عن قوم سبأ؟", "الهدهد", "الغراب", "النسر", "الصقر"],
+    ["ما اسم ملكة سبأ التي أسلمت مع سليمان عليه السلام؟", "بلقيس", "آسيا", "زليخة", "حنة"],
+    ["ما اسم زوجة فرعون التي آمنت بموسى؟", "آسيا بنت مزاحم", "مريم العذراء", "خديجة", "بلقيس"],
+    ["ما هو الوادي المقدس الذي كلم الله فيه موسى عليه السلام؟", "وادي طوى", "وادي بكة", "وادي الأبواء", "وادي عسفان"],
+    ["من هو النبي الذي قتل جالوت؟", "داود عليه السلام", "سليمان عليه السلام", "موسى عليه السلام", "يوشع بن نون"],
+    ["من هو الفتى الذي كان يرافق موسى عليه السلام في رحلته؟", "يوشع بن نون", "هارون", "صالح", "إدريس"],
+    ["من هو النبي الذي رفع إلى السماء وهو حي؟", "عيسى عليه السلام", "إدريس عليه السلام", "إلياس عليه السلام", "الخضر"],
+    ["ما هو الحيوان الذي ذكر في قصة أصحاب الكهف؟", "الكلب", "القط", "الذئب", "الأسد"],
+    ["كم سنة لبث أصحاب الكهف في كهفهم نياماً؟", "309 سنوات", "300 سنة فقط", "100 سنة", "500 سنة"],
+    ["ما هو الحيوان الذي تسبب في كشف موت سليمان عليه السلام؟", "دابة الأرض (أرضة الخشب)", "النملة", "الهدهد", "الكلب"],
+    ["ما هو الطائر الذي علّم قابيل كيف يواري سوءة أخيه هابيل؟", "الغراب", "الحمامة", "الصقر", "النسر"],
+    ["من هما ابنا آدم عليه السلام صاحباي القصة الشهيرة؟", "قابيل وهابيل", "إسماعيل وإسحاق", "يوسف وبنيامين", "هارون وموسى"],
+    ["من هو النبي الذي دعا ربه فقال: (رَبِّ هَبْ لِي مِنَ الصَّالِحِينَ)؟", "إبراهيم عليه السلام", "زكريا عليه السلام", "نوح عليه السلام", "يعقوب عليه السلام"],
+    ["من هو النبي الذي وصفه القرآن بأنه كان أواهاً حليماً؟", "إبراهيم عليه السلام", "إسماعيل عليه السلام", "موسى عليه السلام", "عيسى عليه السلام"]
+];
+
+        
+
+const hardQuestions = [
+    // --- غوامض وعلوم القرآن (1 إلى 40) ---
+    ["ما هي السورة التي تنتهي كل آية فيها بحرف الراء؟", "سورة الكوثر", "سورة الطارق", "سورة العاديات", "سورة القدر"],
+    ["ما هي السورة التي تسمى 'سنام القرآن'؟", "سورة البقرة", "سورة آل عمران", "سورة الفاتحة", "سورة الأنعام"],
+    ["ما هي السورة التي ذكرت فيها البسملة مرتين، إحداهما في أولها والأخرى في آية النمل؟", "سورة النمل", "سورة التوبة", "سورة النحل", "سورة هود"],
+    ["كم عدد سور القرآن التي ابتدأت بالحروف المقطعة (الفواتح)؟", "29 سورة", "26 سورة", "30 سورة", "25 سورة"],
+    ["ما هي السورة التي تسمى 'سورة التوديع'؟", "سورة النصر", "سورة العصر", "سورة التكوير", "سورة الانفطار"],
+    ["ما هي السورة التي يطلق عليها 'سورة الحواريين'؟", "سورة الصف", "سورة المائدة", "سورة آل عمران", "سورة التوبة"],
+    ["ما هي أطول كلمة في القرآن الكريم رسمًا وتأليفًا (في سورة الحجر)؟", "فأسقيناكموه", "أنلزمكموها", "فسيكفيكهم", "ليستخلفنهم"],
+    ["ما هي السورة التي ليس فيها حرف الميم نهائياً؟", "سورة الكوثر", "سورة الإخلاص", "سورة الفلق", "سورة الناس"],
+    ["ما هي السورة التي نزلت كاملة ودفعة واحدة وودعها سبعون ألف ملك؟", "سورة الأنعام", "سورة المدثر", "سورة الفاتحة", "سورة يس"],
+    ["ما هي السورة التي سميت باسم غزوة وقعت في السنة الثامنة للهجرة؟", "سورة الأحزاب / أو فتح", "سورة التوبة", "سورة محمد", "سورة الأنفال"],
+    ["من هو الصحابي الذي كانت الملائكة تستمع لقراءته في بيته؟", "أسيد بن حضير", "أبي بن كعب", "عبد الله بن مسعود", "زيد بن ثابت"],
+    ["ما هي السورة التي بدأت بالتسبيح وختمت به؟", "سورة الحشر", "سورة الحديد", "سورة الصف", "سورة الجمعة"],
+    ["ما هي السورة التي بها سجدتان (وليس سجدة واحدة)؟", "سورة الحج", "سورة النحل", "سورة الأعراف", "سورة مريم"],
+    ["ما هي السورة التي نزلت في شأن قصة أصحاب الافك (عائشة رضي الله عنها)؟", "سورة النور", "سورة الأحزاب", "سورة النساء", "سورة التحريم"],
+    ["في أي سورة ورد ذكر 'ذو الكفل' مرتين؟", "سورة الأنبياء وسورة ص", "سورة البقرة", "سورة آل عمران", "سورة الأعراف"],
+    ["ما هي السورة التي تسمى 'بني إسرائيل'؟", "سورة الإسراء", "سورة مريم", "سورة طه", "سورة الأنبياء"],
+    ["ما هي السورة التي تسمى 'سورة القتال'؟", "سورة محمد", "سورة الأنفال", "سورة الفتح", "سورة التوبة"],
+    ["ما هي السورة التي نزلت بعد سورة المدثر مباشرة في ترتيب نزول الوحي؟", "سورة القلم", "سورة المزمل", "سورة الفاتحة", "سورة العلق"],
+    ["كم عدد آيات سورة البقرة بحسب عد الكوفيين؟", "286 آية", "285 آية", "287 آية", "282 آية"],
+    ["ما هي السورة التي تسمى 'سورة الفرائض' لكثرة ما فيها من أحكام المواريث؟", "سورة النساء", "سورة البقرة", "سورة المائدة", "سورة الطلاق"],
+    ["من هو الصحابي الذي نزل فيه قول الله تعالى: (وَلا تَقُولُوا لِمَنْ يُلْقِي إِلَيْكُمُ السَّلامَ لَسْتَ مُؤْمِناً)؟", "مرداس بن حدير", "أسامة بن زيد", "عمار بن ياسر", "صهيب الرومي"],
+    ["ما هي السورة التي تسمى 'سورة العناكب' أو قيل فيها ذكر العنكبوت؟", "سورة العنكبوت", "سورة النمل", "سورة البقرة", "سورة النحل"],
+    ["ما هي السورة التي وردت فيها قصة قارون وخسفه؟", "سورة القصص", "سورة الإسراء", "سورة العنكبوت", "سورة غافر"],
+    ["ما هي السورة التي ورد فيها ذكر صلاة الخوف؟", "سورة النساء", "سورة البقرة", "سورة المائدة", "سورة الأنفال"],
+    ["ما هي الآية الوحيدة في القرآن التي ذكر فيها المشركون بأنهم 'أنجاس'؟", "سورة التوبة (إِنَّمَا الْمُشْرِكُونَ نَجَسٌ)", "سورة المائدة", "سورة الأنعام", "سورة البقرة"],
+    ["في أي جزء من القرآن تقع سورة النور؟", "الجزء الثامن عشر", "الجزء السادس عشر", "الجزء العشرون", "الجزء الرابع عشر"],
+    ["في أي جزء تقع سورة الكهف؟", "الجزء الخامس عشر وستة عشر", "الجزء الثلاثون", "الجزء العاشر", "الجزء العشرون"],
+    ["ما هي السورة التي ذكر فيها اسم 'أحمد' صراحة؟", "سورة الصف", "سورة آل عمران", "سورة الجمعة", "سورة الفتح"],
+    ["ما هي السورة التي تبدأ بالحروف المقطعة 'كهيعص'؟", "سورة مريم", "سورة طه", "سورة يوسف", "سورة الأعراف"],
+    ["ما هي السورة التي تبدأ بالحروف 'حسعق' أو 'حم عسق'؟", "سورة الشورى", "سورة غافر", "سورة الزخرف", "سورة الجاثية"],
+    ["ما هو الحرف الوحيد الذي افتتحت به خمس سور متتالية (ص، ق، ن، إلخ - تقريبًا)؟", "حرف الميم (في سور الحاميمات)", "حرف الالف", "حرف اللام", "حرف الراء"],
+    ["من هو الكاتب الأساسي لوحي القرآن الذي كان يكتب بين يدي النبي ﷺ؟", "زيد بن ثابت", "عثمان بن عفان", "أبي بن كعب", "معاوية بن أبي سفيان"],
+    ["في عهد أي خليفة جُمع القرآن كاملاً في مصحف واحد وكتب بلغة قريش؟", "عثمان بن عفان رضي الله عنه", "أبو بكر الصديق", "عمر بن الخطاب", "علي بن أبي طالب"],
+    ["من هو الصحابي الذي أشار بجمع القرآن في صحف زمن أبي بكر الصديق؟", "عمر بن الخطاب رضي الله عنه", "عثمان بن عفان", "علي بن أبي طالب", "زيد بن ثابت"],
+    ["ما هو الاسم الآخر لسورة 'الإخلاص'؟", "سورة الصمد / والأساس", "سورة المنجية", "سورة التوحيد", "سورة الشفاء"],
+    ["ما هي السورة التي تسمى 'الواقعة' وقيل إن قراءتها في كل ليلة تمنع الفقر؟", "سورة الواقعة", "سورة الملك", "سورة يس", "سورة الضحى"],
+    ["ما هي السورة التي نزلت في شأن حاطب بن أبي بلتعة عندما كتب رسالة لقريش؟", "سورة الممتحنة", "سورة الحشر", "سورة الأنفال", "سورة التوبة"],
+    ["ما هي السورة التي تتحدث تفصيلياً عن أحداث معركة بدر الكبرى؟", "سورة الأنفال", "سورة آل عمران", "سورة محمد", "سورة الفتح"],
+    ["ما هي السورة التي تتحدث عن معركة أحد وتوجيهات للمسلمين بعدها؟", "سورة آل عمران", "سورة الأنفال", "سورة التوبة", "سورة الأحزاب"],
+    ["ما هي السورة التي تسمى 'سورة الحجرات' وعرفت بآاب آداب التعامل والآداب الاجتماعية؟", "سورة الحجرات", "سورة النور", "سورة الإسراء", "سورة الأحزاب"],
+
+    // --- السيرة النبوية الدقيقة والمعارك (41 إلى 90) ---
+    ["ما هو اسم الجارية القبطية التي أهداها المقوقس للنبي ﷺ وولدت له إبراهيم؟", "مارية القبطية", "سيرين", "ريحانة", "زينب"],
+    ["ما اسم حصن اليهود الأكبر الذي فتحه علي بن أبي طالب رضي الله عنه في غزوة خيبر؟", "حصن القموص", "حصن ناعور", "حصن السلالم", "حصن الوطاب"],
+    ["من هو الصحابي الذي كُلّف بقطع رأس عقبة بن أبي معيط صبراً بعد غزوة بدر؟", "عاصم بن ثابت أو علي بن أبي طالب", "عمر بن الخطاب", "حمزة بن عبد المطلب", "الزبير بن العوام"],
+    ["ما هي المعاهدة التي نقضتها قريش فكانت سبباً مباشراً لفتح مكة؟", "صلح الحديبية (نقض حلف خزاعة)", "حلف الفضول", "صحيفة المقاطعة", "بيعة العقبة"],
+    ["في أي عام هجري وقعت غزوة تبوك (المعسرة)؟", "السنة التاسعة للهجرة", "السنة الثامنة للهجرة", "السنة العاشرة للهجرة", "السنة السابعة للهجرة"],
+    ["من هو الصحابي الذي تخلف عن غزوة تبوك دون عذر ثم تابت توبته في سورة التوبة؟", "كعب بن مالك (وصاحباه)", "حاطب بن أبي بلتعة", "عبد الله بن أبي سلول", "حذيفة بن اليمان"],
+    ["كم كان عدد المسلمين في بيعة الرضوان تحت الشجرة؟", "1400 مقاتل", "1000 مقاتل", "313 مقاتلاً", "3000 مقاتل"],
+    ["من هو اليهودي الذي سحر النبي محمد ﷺ فنزلت سورتا الفلق والناس لفك السحر؟", "لبيد بن أعصم", "حي بن أخطب", "كعب بن الأشرف", "سلام بن أبي الحقيق"],
+    ["من هو الشاعر اليهودي الذي أمر النبي ﷺ بقتله لأذيته المسلمين وتحريض الأحزاب؟", "كعب بن الأشرف", "حُيي بن أخطب", "ابن أبي الحقيق", "سراقة بن مالك"],
+    ["ما اسم الصحابية التي كانت تداوي الجرحى وتعد الطعام في غزوة خيبر وأحد؟", "أم سليم / أو أم عطية", "خولة بنت الأزور", "سفانة بنت حاتم", "أسماء بنت عميس"],
+    ["من هو الصحابي الذي غسّلته الملائكة واستشهد في غزوة أحد وهو جنب؟", "حنظلة بن أبي عامر (غسيل الملائكة)", "مصعب بن عمير", "سعد بن معاذ", "حمزة بن عبد المطلب"],
+    ["من هو الصحابي الذي حمته الدبر (جماعة النحل) من المشركين بعد قتله لبعض زعمائهم؟", "عاصم بن ثابت", "خبيب بن عدي", "زيد بن الدثنة", "سعد بن الربيع"],
+    ["من هو الصحابي الذي قطعت يداه في معركة مؤتة وحمل الراية حتى استشهد (ذو الجناحين)؟", "جعفر بن أبي طالب", "عبد الله بن رواحة", "زيد بن حارثة", "خالد بن الوليد"],
+    ["من هو قائد الجيش الإسلامي في معركة مؤتة أولاً قبل استشهاده؟", "زيد بن حارثة", "جعفر بن أبي طالب", "عبد الله بن رواحة", "خالد بن الوليد"],
+    ["ما هو اللقب الذي أطلقه النبي ﷺ على خالد بن الوليد بعد انسحابه العبقري في مؤتة؟", "سيف الله المسلول", "أسد الله", "فارس الإسلام", "حامي الساقة"],
+    ["في أي عام هجري وقعت معركة مؤتة بين المسلمين والروم؟", "السنة الثامنة للهجرة", "السنة السابعة للهجرة", "السنة التاسعة للهجرة", "السنة السادسة للهجرة"],
+    ["ما هي المعركة التي استشهد فيها الصحابي الجليل سعد بن عبادة أو قيل توفي بالشام؟", "في أحداث السقيفة وما بعدها (الشام)", "معركة اليرموك", "معركة القادسية", "معركة مؤتة"],
+    ["من هو الصحابي الذي كان يحمل راية المهاجرين في أغلب غزوات النبي ﷺ؟", "علي بن أبي طالب رضي الله عنه", "أبو بكر الصديق", "عمر بن الخطاب", "عثمان بن عفان"],
+    ["من هو الصحابي الملقب بـ 'حاري رسول الله'؟", "الزبير بن العوام رضي الله عنه", "طلحة بن عبيد الله", "سعد بن أبي وقاص", "أبو عبيدة بن الجراح"],
+    ["ما اسم ناقة النبي ﷺ القصواء، وما اسم الناقة الأخرى الشهيرة التي كانت تسبقها؟", "العضباء", "الجدعاء", "الشهباء", "البرقاء"],
+    ["في أي سِنة من البعثة النبوية حدث عام الحزن وتوفي فيه أبو طالب وخديجة رضي الله عنها؟", "السنة العاشرة للبعثة", "السنة الثامنة للبعثة", "السنة التاسعة للبعثة", "السنة السابعة للبعثة"],
+    ["من هي زوجة النبي التي توفيت في حياته غير خديجة رضي الله عنها؟", "زينب بنت خزيمة رضي الله عنها", "سودة بنت زمعة", "عائشة", "حفصة"],
+    ["من هي زوجة النبي التي تزوجها وهي مطلقة ابنة عمه زينب بنت جحش؟", "زينب بنت جحش رضي الله عنها", "جويرية بنت الحارث", "ميمونة", "أم حبيبة"],
+    ["ما اسم والدة الصحابي الجليل اسامة بن زيد؟", "بركة (أم أيمن)", "سُمية", "فاطمة بنت أسد", "أسماء بنت عميس"],
+    ["من هو الصحابي الذي بعثه النبي لجمع الصدقات والزكاة من اليمن فكتب له كتاباً جامعاً؟", "معاذ بن جبل", "علي بن أبي طالب", "أبو موسى الأشعري", "عمرو بن العاص"],
+    ["من هو الصحابي الذي أرسله النبي ﷺ أول سفير في الإسلام ليعلم أهل المدينة القرآن؟", "مصعب بن عمير", "حاطب بن أبي بلتعة", "دحية الكلبي", "عمرو بن أمية الضمري"],
+    ["من هو الصحابي الذي كان يحرس النبي ﷺ في بعض الغزوات حتى نزلت آية (وَاللَّهُ يَعْصِمُكَ مِنَ النَّاسِ)؟", "سعد بن أبي وقاص أو حذيفة بن اليمان", "أبو بكر الصديق", "عمر بن الخطاب", "علي بن أبي طالب"],
+    ["ما اسم السرايا التي أرسلها النبي ﷺ ولم يخرج فيها بنفسه وتسمى سرية ذات السلاسل؟", "سرية عمرو بن العاص", "سرية زيد بن حارثة", "سرية عبد الله بن جحش", "سرية حمزة بن عبد المطلب"],
+    ["في أي سرية قطعت أذن أحد الصحابة فجعل مكانها أذناً من فضة؟", "سرية أو معركة (قيس بن الحارث أو عرفجة بن أسعد)", "معركة بدر", "غزوة أحد", "غزوة خيبر"],
+    ["من هو أمير المؤمنين الذي قُتل غيلة وهو يخطب صلاة الفجر بـ أبو لؤلؤة المجوسي؟", "عمر بن الخطاب رضي الله عنه", "عثمان بن عفان", "علي بن أبي طالب", "أبو بكر الصديق"],
+    ["من هو الخليفة الذي استشهد في داره وهو يقرأ القرآن الكريم على يد الفتنة؟", "عثمان بن عفان رضي الله عنه", "عمر بن الخطاب", "علي بن أبي طالب", "معاوية بن أبي سفيان"],
+    ["في أي عام هجري تمت بيعة الرضوان؟", "السنة السادسة للهجرة", "السنة الخامسة للهجرة", "السنة السابعة للهجرة", "السنة الثامنة للهجرة"],
+    ["ما اسم الفرس الشهير الذي كان يملكه النبي محمد ﷺ؟", "السبحة (أو لُحيف ومرتجز)", "القصواء", "الشهباء", "الجدعاء"],
+    ["من هو الصحابي الذي أمره النبي ﷺ بأن يتعلم لغة اليهود (السريانية أو العبرية) فتعلمها في نصف شهر؟", "زيد بن ثابت رضي الله عنه", "أبي بن كعب", "عبد الله بن مسعود", "معاذ بن جبل"],
+    ["من هو الصحابي الذي قيل عنه إن الملائكة كانت تسلم عليه لعظم إيمانه (عمران بن حصين)؟", "عمران بن حصين رضي الله عنه", "أبو ذر الغفاري", "سلمان الفارسي", "عمار بن ياسر"],
+    ["ما اسم الصحابي الذي كسر أصنام بني سليم في سرية ذات الرقاع أو سرية أخرى؟", "خالد بن الوليد أو غيره", "علي بن أبي طالب", "أبو سفيان بن الحارث", "عمرو بن العاص"],
+    ["من هو الصحابي الذي قال له النبي ﷺ: (إنك امرؤ فيك جاهلية) حين عير رجلاً بأمه؟", "أبو ذر الغفاري رضي الله عنه", "عمر بن الخطاب", "بلال بن رباح", "عياض بن حمار"],
+    ["من هو الصحابي الذي جادل النبي ﷺ في يوم الحديبية في كتابة 'محمد رسول الله'؟", "سهيل بن عمرو (مفاوض قريش)", "عكرمة بن أبي جهل", "صفوان بن أمية", "أبو سفيان"],
+    ["من هو الصحابي الذي لقب بـ 'داهية العرب' وكان والياً على مصر؟", "عمرو بن العاص رضي الله عنه", "المغيرة بن شعبة", "معاوية بن أبي سفيان", "زياد بن أبيه"],
+    ["ما هو اسم الجمل الذي ركبته أم المؤمنين عائشة رضي الله عنها في معركة الجمل؟", "عسكر", "القصواء", "الجدعاء", "الشجناء"],
+
+    // --- الفقه وأصول الشريعة والفرائض (91 إلى 140) ---
+    ["ما هو الحكم الفقهي لـ 'أكل لحم الجزور' (الإبل) بالنسبة للوضوء؟", "ينقض الوضوء اتفاقاً أو راجحاً", "لا ينقض الوضوء", "مكروه تحريماً", "مستحب تركه"],
+    ["ما هي الدية الكاملة المقررة في الشريعة الإسلامية بالإبل؟", "مائة من الإبل", "ألف دينار", "عشرة آلاف درهم", "خمسون ناقة"],
+    ["ما هو مقدار صاع النبي ﷺ بالمكاييل المعاصرة تقريباً بالوزن للقمح؟", "حوالي 2 كيلو ونصف إلى 3 كيلو", "كيلو ونصف", "خمسة كيلو", "كيلو واحد"],
+    ["ما هو حكم صيام أيام التشريق (11، 12، 13 من ذي الحجة)؟", "محرم صيامه إلا لمن لم يجد الهدي من الحجاج", "مستحب", "مكروه كراهة تنزيه", "مباح"],
+    ["ما هي العدة الشرعية للمرأة المتوفى عنها زوجها إذا كانت حاملاً؟", "وضع الحمل (حتى لو بعد يوم واحد)", "أربعة أشهر عشراً", "ثلاثة أشهر", "سنة كاملة"],
+    ["ما هي عدة المرأة المتوفى عنها زوجها وليست حاملاً؟", "أربعة أشهر وعشرة أيام", "ثلاثة أشهر قروء", "شهر واحد", "ستة أشهر"],
+    ["ما هو نصاب الفضة الشرعي الخالص الذي تجب فيه الزكاة؟", "مائتا درهم (ما يعادل 595 جراماً)", "ألف درهم", "مئة جرام", "خمسون جراماً"],
+    ["ما هي نسبة الزكاة الواجبة في الزروع والثمار التي يسقى بالسماء (بلا مؤنة)؟", "العشر (10 بالمئة)", "نصف العشر (5 بالمئة)", "الربع (25 بالمئة)", "نصف بالمئة"],
+    ["ما هي نسبة الزكاة في الزروع والثمار التي يسقى بالآلات والسقي والتكلفة؟", "نصف العشر (5 بالمئة)", "العشر كاملة (10 بالمئة)", "الربع", "الخمس"],
+    ["ما هو حكم طلاق الحائض بحسب الراجح في السنة المعتبرة؟", "بدعي محرم ولكنه يقع عند الجمهور", "لا يقع أبداً", "سني جائز", "مكروه فقط ولا يقع"],
+    ["ما هو حكم الطلاق في حالة الغضب الشديد الذي يغلق على الإنسان عقله ولا يدري ما يقول؟", "لا يقع باتفاق العلماء", "يقع رجعياً", "يقع بائناً", "يقع ثلاثاً"],
+    ["كم عدد الركعات في صلاة الكسوف والخسوف بحسب السنة الصحيحة؟", "ركعتان في كل ركعة قيامان وركوعان", "أربع ركعات متفرقة", "ركعتان كالصلاة العادية", "أربع ركعات بدون ركوع"],
+    ["ما هو حكم قراءة الفاتحة للمأموم في الصلاة الجهرية بحسب الراجح؟", "تجب حتى في الجهرية (لا صلاة لمن لم يفتح بحمد الكتاب)", "لا تجب مطلقاً", "مكروهة", "مستحبة لمن استمع"],
+    ["ما هو الفرق الفقهي بين المني والمذي والودي؟", "المني طهر يوجب الغسل، والمذي نجس يوجب الوضوء، والودي نجس يوجب الوضوء", "جميعها توجب الغسل", "جميعها طاهرة", "المني نجس والمذي طاهر"],
+    ["ما هي المسافة التي تقصر فيها الصلاة وتجمع بحسب جمهور العلماء؟", "سفر القصر (حوالي 81 إلى 83 كيلومتراً)", "أربعون كيلومتراً", "عشرة كيلومترات", "مائة وخمسون كيلومتراً"],
+    ["ما هو حكم أكل لحم الخيل (الخيول) في المذاهب الإسلامية؟", "مباح عند الجمهور (الكثير من الصحابة والشافعية والحنابلة)", "حرام قطعاً", "مكروه تحريماً", "مكروه تنزيهاً"],
+    ["ما هو حكم أكل الضب في الشريعة الإسلامية؟", "حلال أهله أكلوا على مائدة النبي ولم يحرمه", "حرام لأنه ذو مخلب", "مكروه", "نجس"],
+    ["ما هو الدم الذي يخرج من المرأة بعد الولادة ويمنعها الصلاة والصيام؟", "دم النفاس", "دم الحيض", "دم الاستحاضة", "دم الفساد"],
+    ["ما هو الدم الذي يخرج في غير أوقات الحيض والنفاس ويعتبر مرضاً لا يمنع العبادة؟", "دم الاستحاضة", "دم الحيض", "دم النفاس", "دم الفساد"],
+    ["ما هو حكم صلاة الوتر في المذهب الحنيف؟", "واجبة (مفروضة دون رتبة الفريضة الخمس)", "سنة مؤكدة", "مستحبة", "مباحة"],
+    ["ما هو مقدار الصدقة الواجبة في 'ركاز' الذهب والفضة (الكنز المدفون في الجاهلية)؟", "الخمس (20 بالمئة)", "العشر", "نصف العشر", "الربع"],
+    ["من هم المستحقون للزكاة المذكورين في سورة التوبة (إنما الصدقات للفقراء...)؟", "ثمانية أصناف", "خمسة أصناف", "ثلاثة أصناف", "عشرة أصناف"],
+    ["ما هو حكم أخذ الأجرة على تعبئة الرقية الشرعية بالقرآن؟", "جائز (بشرط الرقية الصحيحة وعدم الشعوذة)", "حرام قطعي", "مكروه", "بدعة ضلالة"],
+    ["ما هو حكم سجود السهو في الصلاة إذا زاد المصلي ركعة سهواً؟", "سجود السهو بعد السلام مستحب أو واجب بحسب الزيادة", "تبطل الصلاة ويجب إعادتها", "لا شيء عليه", "يسجد قبل السلام وجوباً"],
+    ["ما هو حكم الإحرام بالحج قبل ميقاته الزماني أو المكاني؟", "جائز مع كراهة عند بعض، والصحيح يصح ويحرم", "باطل ولا يصح", "حرام شرعاً", "مكروه كراهة تحريم"],
+    ["ما هي الكفارة الواجبة على من أفطر عمداً في نهار رمضان بالجماع؟", "عتق رقبة، فإن لم يجد فصيام شهرين متتابعين، فإن لم يستطع فإطعام ستين مسكيناً", "صيام ثلاثة أيام", "إطعام عشرة مساكين", "صيام شهر واحد"],
+    ["ما هو حكم طلاق السكران الذي وصل إلى درجة غياب العقل؟", "لا يقع طلاقه عند جمهور المحققين", "يقع باتفاق الأئمة", "يقع طلاقاً بائناً", "يقع ثلاثاً مباشرة"],
+    ["ما هي العدة الشرعية للمرأة المختلعة من زوجها؟", "حيضة واحدة استبراءً للرحم", "ثلاثة قروء كاملة", "أربعة أشهر وعشر", "شهر واحد"],
+    ["ما هو الموت الذي يوجب الغسل والتكفين والصلاة عليه بحسب الفقه الإسلامي؟", "كل مسلم مات سوى شهيد المعركة في المعترك", "الشهيد فقط يغسل", "الميت بالطبيعي فقط", "من مات غريقاً لا يغسل"],
+    ["ما هو حكم الحضانة للأطفال إذا افترق الأبوان بطلاق؟", "الأم أحق بالحضانة ما لم تتزوج حتى يبلغ الغلام أو تستأثر", "الأب أحق بها مطلقاً", "الجدة أحق بها", "تباع للمحكمة"],
+    ["ما هي الكفارة الواجبة في الحلف باليمين الكاذبة أو الحانثة إذا لم يستطع الإطعام؟", "إطعام عشرة مساكين من أوسط ما تطعمون أهليكم أو كسوتهم أو تحرير رقبة، فمن لم يجد فصيام ثلاثة أيام", "صيام شهرين متتابعين", "ذبح شاة", "استغفار فقط"],
+    ["ما هو حكم صيام الأيام البيض من كل شهر هجري (13، 14، 15)؟", "سنة مؤكدة (كصيام صيام الدهر)", "واجب", "مكروه", "بدعة"],
+    ["ما هو تعريف الشفع والوتر في صلاة الليل؟", "الشفع ركعتان تشفعان الوتر، والوتر ركعة مفردة أو ختمة صلاة الليل", "الشفع ثلاثة والوتر واحد", "الشفع ركعة والوتر ركعتان", "الشفع خمسة والوتر خمسة"],
+    ["ما هي الأشهر الحرم المذكورة في القرآن والسنة؟", "رجب، ذو القعدة، ذو الحجة، المحرم", "رمضان، شوال، ذو الحجة، صفر", "صفر، ربيع الأول، رجب، شعبان", "محرم، ربيع الثاني، شعبان، رمضان"],
+    ["ما هو حكم التلفظ بالنية جهراً قبل الصلاة (مثل: أصلي لله صلاة الظهر...)؟", "خلاف، والأكثر على تركها لأن النية محلها القلب ولم تثبت عن النبي بصوت مرتفع", "سنة مؤكدة", "واجب", "شرط لصحة الصلاة"],
+    ["ما هو المنهج الفقهي المعتمد في استنباط الأحكام من أدلتها التفصيلية؟", "أصول الفقه", "علم الكلام", "التفسير الموضوعي", "علم الحديث"],
+    ["ما هو حكم صلاة الاستخارة، ومتى يقال دعاؤها؟", "سنة، ويقال دعاؤها بعد السلام من ركعتي الاستخارة", "واجبة، ويقال الدعاء قبل السلام", "مستحبة في السجود", "واجبة عند حيرة الأمور"],
+    ["ما هو مقدار النسك في الفدية لمن حلق رأسه في الإحرام لأذى أو مرض؟", "خيام بين صيام ثلاثة أيام أو إطعام ستة مساكين أو نسك شاة", "ذبح بقرة كاملة", "صيام شهر كامل", "إطعام عشرين مسكيناً"],
+    ["ما هو حكم كشف وجه المرأة وإبطان الكفين في الإحرام بحسب الجمهور؟", "يجب كشف وجهها وكفيها ويحرم لبس النقاب والقفازين", "يجب تغطية الوجه بالكامل", "يستحب النقاب", "يباح لها كل شيء"],
+    ["ما هو حكم الأضحية في المذاهب الإسلامية (مثل الحنفية والجمهور)؟", "سنة مؤكدة عند الجمهور، وواجبة عند الحنفية للقادر", "فرض عين على كل شخص", "مباحة فقط", "مكروهة للمقيم"],
+
+    // --- التاريخ الإسلامي والمعارك الدقيقة والفتوحات (141 إلى 200) ---
+    ["في أي عام هجري وقعت معركة اليرموك الخالدة بين المسلمين والروم؟", "السنة الثالثة عشرة للهجرة (13 هـ)", "السنة العاشرة للهجرة", "السنة الحادية عشرة", "السنة الخامسة عشرة"],
+    ["من هو القائد العام لجيش المسلمين في معركة اليرموك بعد أبو عبيدة وعمرو؟", "خالد بن الوليد رضي الله عنه", "سعد بن أبي وقاص", "يزيد بن أبي سفيان", "شرحبيل بن حسنة"],
+    ["في أي عام هجري وقعت معركة القادسية الفاصلة بقيادة سعد بن أبي وقاص؟", "السنة الرابعة عشرة أو الخامسة عشرة للهجرة (14-15 هـ)", "السنة الثامنة للهجرة", "السنة الحادية عشرة", "السنة العشرين للهجرة"],
+    ["ما اسم المعركة التي تسمى بـ 'فتح الفتوح' والتي انتصر فيها المسلمون على الفرس بقيادة النعمان بن مقرن؟", "معركة نهاوند", "معركة القادسية", "معركة اليرموك", "معركة زلاقة"],
+    ["من هو الخليفة الراشد الذي فتحت في عهده بلاد فارس ومصر والشام بالكامل؟", "عمر بن الخطاب رضي الله عنه", "عثمان بن عفان", "أبو بكر الصديق", "علي بن أبي طالب"],
+    ["من هو القائد المسلم الذي فتح جزيرة قبرص بحرياً في عهد عثمان بن عفان؟", "معاوية بن أبي سفيان وأبو ذر", "عمرو بن العاص", "عبد الله بن أبي السرح", "عقبة بن نافع"],
+    ["من هو القائد المسلم الذي فتح بلاد إفريقية (ونسق تونس وبنى مدينة القيروان)؟", "عقبة بن نافع الفهري", "حسان بن النعمان", "موسى بن نصير", "طارق بن زياد"],
+    ["من هو القائد الذي عبر مضيق الجبل (جبل طارق) لفتح الأندلس؟", "طارق بن زياد", "موسى بن نصير", "عبد الرحمن الداخل", "عبد الرحمن الغافقي"],
+    ["في أي عام هجري تم فتح الأندلس بقيادة طارق بن زياد وموسى بن نصير؟", "السنة الثانية والتسعين للهجرة (92 هـ)", "السنة الثامنة والسبعين", "السنة المئة للهجرة", "السنة الخامسة والثمانين"],
+    ["ما هي المعركة التي توقف عندها التمدد الإسلامي في أوروبا بفرنسا (بلاط الشهداء)؟", "معركة بواتييه (بلاط الشهداء) سنة 114 هـ", "معركة زلاقة", "معركة الأرك", "معركة طريف"],
+    ["من هو مؤسس الدولة الأموية في دمشق بعد تنازل الحسن بن علي رضي الله عنه له؟", "معاوية بن أبي سفيان رضي الله عنه", "يزيد بن معاوية", "عبد الملك بن مروان", "معاوية بن يزيد"],
+    ["من هو الخليفة الأموي الذي يسمى بـ 'رابع الخلفاء الراشدين' لعدله الشديد وتقواه (الخلافة الراشدة الخامسة)؟", "عمر بن عبد العزيز رحمه الله", "معاوية بن أبي سفيان", "هشام بن عبد الملك", "عمر بن الخطاب"],
+    ["في أي عام هجري سقطت الدولة الأموية وقامت الدولة العباسية؟", "السنة الثانية بعد المائة والثلاثين (132 هـ)", "السنة المائة للهجرة", "السنة المائة والخمسين", "السنة التسعين"],
+    ["من هو مؤسس الدولة العباسية الذي أطلق عليه لقب 'السفاح'؟", "أبو العباس عبد الله السفاح", "أبو جعفر المنصور", "هارون الرشيد", "المأمون"],
+    ["من هو الخليفة العباسي الذي بنيت في عهده مدينة بغداد (مدينة السلام)؟", "أبو جعفر المنصور", "هارون الرشيد", "المأمون", "المعتصم بالله"],
+    ["من هو الخليفة العباسي الذي اشير إليه بأنه كان يحج عاماً ويغزو عاماً؟", "هارون الرشيد رحمه الله", "المنصور", "المعتصم", "المتوكل"],
+    ["من هي زوجة هارون الرشيد القوية التي أمرت بحفر عين زبيدة بمكة لحجاج بيت الله؟", "زبيدة بنت جعفر (أم جعفر)", "خيزران", "عضد الدولة", "توران شاه"],
+    ["في عهد أي خليفة عباسي وقعت محنة خلق القرآن وامتحن فيها الإمام أحمد بن حنبل؟", "المأمون والمعتصم والواثق", "هارون الرشيد", "المتوكل", "المنصور"],
+    ["من هو الخليفة العباسي الذي أنهى محنة خلق القرآن وأعاد أهل السنة لمكانتهم؟", "المتوكل على الله", "المهدي", "المستعين", "المقتدر"],
+    ["من هو القائد العباسي الذي لبى نداء المرأة المظلومة (وا معتصماه) وفتح عمورية؟", "المعتصم بالله العباسي", "هارون الرشيد", "المأمون", "النائب العباسي"],
+    ["من هو مؤسس الدولة الفاطمية في المغرب ثم مصر؟", "عبيد الله المهدي", "المعز لدين الله", "الحاكم بأمر الله", "العزيز بالله"],
+    ["من هو القائد الفاطمي الذي فتح مصر وبنى مدينة القاهرة وجامع الأزهر؟", "جوهر الصقلي", "صلاح الدين الأيوبي", "بدر الجمالي", "طقطق"],
+    ["من هو باني القلعة الشهيرة بالقاهرة (قلعة الجبل) ومؤسس الدولة الأيوبية؟", "صلاح الدين الأيوبي رحمه الله", "سيف الدين قطز", "الظاهر بيبرس", "نور الدين زنكي"],
+    ["في أي عام ميلادي وهجري وقعت معركة حطين الكبرى التي حرر فيها صلاح الدين القدس؟", "سنة 583 هـ (1187 م)", "سنة 658 هـ", "سنة 500 هـ", "سنة 600 هـ"],
+    ["من هو القائد المملوكي الذي قاد المسلمين وهزم التتار شر هزيمة في معركة عين جالوت؟", "سيف الدين قطز", "الظاهر بيبرس", "صلاح الدين الأيوبي", "قلاون"],
+    ["في أي عام هجري وقعت معركة عين جالوت التاريخية؟", "السنة الثامنة بعد المائتين والست مائة (658 هـ)", "السنة 583 هـ", "السنة 700 هـ", "السنة 610 هـ"],
+    ["من هو السلطان العثماني الذي فتح مدينة القسطنطينية سنة 1453م ولقب بـ 'الفاتح'؟", "محمد الفاتح", "سليمان القانوني", "سليم الأول", "بايزيد"],
+    ["من هو السلطان العثماني الذي ضم مصر والشام والدولة العباسية للخلافة العثمانية (سلطان البرين والبحرين)؟", "سليم الأول (السلطان سليم)", "سليمان القانوني", "محمد الفاتح", "عبد الحميد الثاني"],
+    ["ما هي الدولة الإسلامية الكبرى التي حكمت الهند لقرون وتركَت المعالم العظيمة مثل 'تاج محل'؟", "إمبراطورية المغول الإسلامية في الهند", "الدولة الصفوية", "دولة المماليك", "دولة المرابطين"],
+    ["من هو مؤسس دولة المرابطين الإسلامية في شمال إغرب وإفريقيا والأندلس؟", "يوسف بن تاشفين", "عبد الله بن ياسين", "محمد بن تومرت", "عبد المؤمن بن علي"],
+    ["من هو القائد الأمازيغي المرابطي الذي انتصر في معركة الزلاقة الكبرى على الإسبان؟", "يوسف بن تاشفين", "طارق بن زياد", "موسى بن نصير", "يعقوب المنصور"],
+    ["من هي الدولة التي جاءت بعد المرابطين في المغرب والأندلس وأسسها ابن تومرت؟", "دولة الموحدين", "الدولة الحفصية", "دولة المرينيين", "الدولة السعدية"],
+    ["من هو العالم والفقيه الأندلسي الكبير مؤلف كتاب 'المحلى' وكتاب 'الفصل في الملل والأهواء'؟", "الإمام ابن حزم الظاهري", "الإمام الشاطبي", "الإمام الباجي", "ابن عبد البر"],
+    ["من هو شيخ الإسلام المجدد ومؤلف كتاب 'مجموع الفتاوى' و'الواسطية'؟", "الإمام ابن تيمية الحراني", "الإمام ابن القيم", "الإمام الذهبي", "الإمام ابن كثير"],
+    ["من هو تلميذ ابن تيمية البار ومؤلف 'زاد المعاد' و'مدارج السالكين'؟", "الإمام ابن قيم الجوزية", "الإمام ابن رجب الحنبلي", "الإمام الحافظ ابن كثير", "الإمام الشوكاني"],
+    ["من هو مؤلف كتاب تفسير القرآن العظيم المسمى 'تفسير ابن كثير'؟", "الإمام إسماعيل بن كثير الدمشقي", "الإمام الطبري", "الإمام القرطبي", "الإمام البغوي"],
+    ["من هو صاحب التفسير المسمى 'جامع البيان عن تأويل آي القرآن' (أوسع التفاسير وأقدمها)؟", "الإمام أبو جعفر الطبري", "الإمام ابن جرير الطبري", "الإمام الثعلبي", "الإمام الزمخشري"],
+    ["من هو صاحب كتاب 'صحيح البخاري' أصح الكتب بعد كتاب الله؟", "الإمام محمد بن إسماعيل البخاري", "الإمام مسلم بن حجاج", "الإمام الترمذي", "الإمام النسائي"],
+    ["من هو صاحب كتاب 'صحيح مسلم' الإمام المحدث الكبير؟", "الإمام مسلم بن الحجاج النيسابوري", "الإمام البخاري", "الإمام أبو داود", "الإمام ابن ماجه"],
+    ["ما هي الكتب الستة المشهورة في علم الحديث النبوي الشريف؟", "البخاري، مسلم، أبو داود، الترمذي، النسائي، ابن ماجه", "البخاري، مسلم، مالك، أحمد، الشافعي، أبو حنيفة", "الدارمي، البيهقي، الطبراني، الحاكم، ابن حبان، الدارقطني", "مسند أحمد، موطأ مالك، صحيح ابن خزيمة، صحيح ابن حبان، المستدرك، سنن الدارمي"]
+];
+
+const CONFIG = {
+    firebaseLeaderboard: 'https://islamicmillion-328a1-default-rtdb.firebaseio.com/leaderboard.json',
+    firebaseUsers: 'https://islamicmillion-328a1-default-rtdb.firebaseio.com/users.json',
+    rewards: [10000, 20000, 30000, 40000, 50000, 100000, 150000, 200000, 200000, 200000],
+    safeLevels: [150000, 600000],
+    easyCount: 5,
+    totalQuestions: 10,
+    classicTimeEasy: 30,
+    classicTimeHard: 45,
+    dailyTimeEasy: 30,
+    dailyTimeHard: 45,
+    storage: {
+        player: 'millionaire_current_player',
+        theme: 'millionaire_theme',
+        sound: 'millionaire_sound',
+        stats: 'millionaire_stats_v2',
+        game: 'millionaire_game_state_v2',
+        pending: 'millionaire_pending_results_v2'
+    }
+};
+
+const rawEasy = easyQuestions;
+const rawHard = hardQuestions;
+
+function normalizeText(value) {
+    return String(value || '').replace(/[\u064B-\u065F\u0670]/g, '').replace(/[إأآ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه').replace(/\s+/g, ' ').trim().toLowerCase();
+}
+function cleanQuestions(raw, difficulty) {
+    const seen = new Set();
+    const out = [];
+    raw.forEach((q, index) => {
+        if (!Array.isArray(q) || q.length < 5) return;
+        const question = String(q[0] || '').trim();
+        const key = normalizeText(question);
+        if (!question || seen.has(key)) return;
+        seen.add(key);
+        const opts = q.slice(1,5).map(v => String(v || '').trim());
+        if (new Set(opts.map(normalizeText)).size < 4) return;
+        out.push({ id: difficulty + '-' + index, question, options: opts, correctIndex: 0, difficulty });
+    });
+    return out;
+}
+const EASY = cleanQuestions(rawEasy, 'easy');
+const HARD = cleanQuestions(rawHard, 'hard');
+
+let currentPlayer = localStorage.getItem(CONFIG.storage.player) || '';
+let currentMode = 'classic';
+let currentQuestions = [];
+let currentQuestionIndex = 0;
+let currentOptions = [];
+let currentScore = 0;
+let safeScore = 0;
+let currentStreak = 0;
+let bestStreakThisGame = 0;
+let correctCount = 0;
+let questionsAnswered = 0;
+let lifelines = { fifty:false, change:false, hint:false, audience:false };
+let isProcessing = false;
+let timerInterval = null;
+let timerDeadline = 0;
+let questionTimeLeft = 0;
+let toastTimer = null;
+let soundEnabled = localStorage.getItem(CONFIG.storage.sound) !== 'off';
+let activeBoard = 'best';
+let pendingSave = false;
+
+const $ = id => document.getElementById(id);
+
+function showModal(id) { $(id).classList.add('show'); document.body.classList.add('no-scroll'); }
+function hideModal(id) { $(id).classList.remove('show'); if (!document.querySelector('.modal.show')) document.body.classList.remove('no-scroll'); }
+function formatScore(n) { return Number(n || 0).toLocaleString('ar-EG'); }
+function todayKey() { const d = new Date(); return d.toISOString().slice(0,10); }
+function weekKey() { const d = new Date(); const day = (d.getUTCDay() + 6) % 7; d.setUTCDate(d.getUTCDate() - day); return d.toISOString().slice(0,10); }
+function seededRng(seed) {
+    let t = seed >>> 0;
+    return function() {
+        t += 0x6D2B79F5;
+        let x = t;
+        x = Math.imul(x ^ x >>> 15, x | 1);
+        x ^= x + Math.imul(x ^ x >>> 7, x | 61);
+        return ((x ^ x >>> 14) >>> 0) / 4294967296;
+    };
+}
+function hashSeed(value) { let h=2166136261; for (let i=0;i<value.length;i++) { h ^= value.charCodeAt(i); h = Math.imul(h,16777619); } return h >>> 0; }
+function shuffle(arr, rng=Math.random) {
+    const copy = [...arr];
+    for (let i=copy.length-1;i>0;i--) { const j=Math.floor(rng()*(i+1)); [copy[i],copy[j]]=[copy[j],copy[i]]; }
+    return copy;
+}
+function questionTime() { return currentQuestionIndex < CONFIG.easyCount ? (currentMode === 'daily' ? CONFIG.dailyTimeEasy : CONFIG.classicTimeEasy) : (currentMode === 'daily' ? CONFIG.dailyTimeHard : CONFIG.classicTimeHard); }
+function modeLabel() { return currentMode === 'daily' ? '🔥 تحدي اليوم' : '🎲 لعبة عشوائية'; }
+
+function defaultStats() {
+    return { games:0, bestScore:0, totalScore:0, correct:0, answered:0, xp:0, bestStreak:0, achievements:{first:false,millionaire:false,perfect:false,noLifelines:false,daily:false,streak5:false} };
+}
+function getStats() { try { return {...defaultStats(), ...(JSON.parse(localStorage.getItem(CONFIG.storage.stats)) || {})}; } catch { return defaultStats(); } }
+function saveStats(s) { localStorage.setItem(CONFIG.storage.stats, JSON.stringify(s)); }
+function levelFromXp(xp) { return Math.floor((xp || 0) / 500) + 1; }
+function xpToNext(xp) { return 500 - ((xp || 0) % 500); }
+function calculateXp(score, correct, mode, noLifelines, streak) {
+    let xp = Math.floor(score / 10000) + correct * 25 + Math.max(0, streak-1) * 20;
+    if (mode === 'daily') xp += 100;
+    if (noLifelines) xp += 75;
+    return xp;
+}
+
+function saveLocalGame() {
+    if (!currentPlayer || !currentQuestions.length || currentQuestionIndex >= CONFIG.totalQuestions || isProcessing) return;
+    const data = { currentPlayer, currentMode, currentQuestions, currentQuestionIndex, currentScore, safeScore, currentStreak, bestStreakThisGame, correctCount, questionsAnswered, lifelines, questionTimeLeft, savedAt: Date.now(), day: todayKey() };
+    localStorage.setItem(CONFIG.storage.game, JSON.stringify(data));
+}
+function clearLocalGame() { localStorage.removeItem(CONFIG.storage.game); }
+function restoreCandidate() {
+    try {
+        const data = JSON.parse(localStorage.getItem(CONFIG.storage.game));
+        if (!data || data.currentPlayer !== currentPlayer || !Array.isArray(data.currentQuestions) || data.currentQuestions.length !== CONFIG.totalQuestions) return null;
+        if (Date.now() - data.savedAt > 1000 * 60 * 60 * 8) return null;
+        if (data.currentMode === 'daily' && data.day !== todayKey()) return null;
+        return data;
+    } catch { return null; }
+}
+
+function updateHeader() {
+    $('playerNameStat').textContent = currentPlayer || '-';
+    $('scoreStat').textContent = formatScore(currentScore);
+    $('safeStat').textContent = formatScore(safeScore);
+    $('safeText').textContent = formatScore(safeScore) + ' حسنة';
+    $('streakStat').textContent = currentStreak + ' 🔥';
+    $('modeBadge').textContent = modeLabel();
+    const pct = Math.min(100, ((currentQuestionIndex) / CONFIG.totalQuestions) * 100);
+    $('progressFill').style.width = pct + '%';
+}
+function updateQuestionMeta() {
+    $('questionNumber').textContent = `السؤال ${Math.min(currentQuestionIndex+1, CONFIG.totalQuestions)} / ${CONFIG.totalQuestions}`;
+    $('difficultyPill').textContent = currentQuestionIndex < CONFIG.easyCount ? '🟢 سهل' : '🔴 صعب';
+    updateHeader();
+}
+function renderQuestion() {
+    if (!currentQuestions[currentQuestionIndex]) return;
+    const q = currentQuestions[currentQuestionIndex];
+    $('questionText').textContent = q.question;
+    currentOptions = shuffle(q.options.map((text, idx) => ({text, correct: idx === q.correctIndex}))).map((opt, idx) => ({...opt, index:idx}));
+    $('options').innerHTML = '';
+    ['أ','ب','ج','د'].forEach((letter, idx) => {
+        const opt = currentOptions[idx];
+        const btn = document.createElement('button');
+        btn.className = 'option'; btn.type='button'; btn.dataset.index = idx;
+        const letterSpan = document.createElement('span'); letterSpan.className='option-letter'; letterSpan.textContent = letter;
+        const textSpan = document.createElement('span'); textSpan.textContent = opt.text;
+        btn.append(letterSpan, textSpan);
+        btn.addEventListener('click', () => selectOption(idx));
+        $('options').appendChild(btn);
+        opt.element = btn;
+    });
+    updateQuestionMeta();
+    updateLifelines();
+    beginTimer(questionTimeLeft || questionTime());
+}
+function beginTimer(seconds) {
+    clearInterval(timerInterval);
+    questionTimeLeft = Math.max(0, Math.floor(seconds));
+    timerDeadline = Date.now() + questionTimeLeft * 1000;
+    renderTimer();
+    timerInterval = setInterval(() => {
+        questionTimeLeft = Math.max(0, Math.ceil((timerDeadline - Date.now()) / 1000));
+        renderTimer();
+        if (questionTimeLeft <= 0) { clearInterval(timerInterval); handleTimeout(); }
+    }, 250);
+}
+function renderTimer() {
+    $('timerPill').textContent = `⏱ ${String(Math.floor(questionTimeLeft/60)).padStart(2,'0')}:${String(questionTimeLeft%60).padStart(2,'0')}`;
+    $('timerPill').classList.toggle('danger', questionTimeLeft <= 10);
+}
+function stopTimer() { clearInterval(timerInterval); timerInterval = null; questionTimeLeft = Math.max(0, Math.ceil((timerDeadline - Date.now())/1000)); }
+function updateLifelines() {
+    [['life5050','fifty'],['lifeChange','change'],['lifeHint','hint'],['lifeAudience','audience']].forEach(([id,key]) => { $(id).disabled = lifelines[key] || isProcessing || !currentQuestions.length; });
+}
+function hideOptionsButtons() { document.querySelectorAll('.option').forEach(b => b.disabled = true); }
+function correctButton() { return currentOptions.find(o => o.correct)?.element; }
+
+function selectOption(index) {
+    if (isProcessing || !currentOptions[index]) return;
+    isProcessing = true; stopTimer(); hideOptionsButtons();
+    const picked = currentOptions[index];
+    picked.element.classList.add('pending');
+    sound('select');
+    setTimeout(() => resolveAnswer(picked.correct, picked.element, false), 700);
+}
+function handleTimeout() {
+    if (isProcessing) return;
+    isProcessing = true; hideOptionsButtons();
+    sound('wrong');
+    showToast('⏰ انتهى الوقت!');
+    resolveAnswer(false, null, true);
+}
+function resolveAnswer(isCorrect, pickedElement, timedOut) {
+    if (pickedElement) pickedElement.classList.remove('pending');
+    const correct = correctButton();
+    if (isCorrect) {
+        pickedElement?.classList.add('correct');
+        currentScore += CONFIG.rewards[currentQuestionIndex];
+        correctCount++; questionsAnswered++; currentStreak++; bestStreakThisGame = Math.max(bestStreakThisGame, currentStreak);
+        if (CONFIG.safeLevels.includes(currentScore)) safeScore = currentScore;
+        sound('correct');
+    } else {
+        pickedElement?.classList.add('wrong');
+        correct?.classList.add('correct');
+        questionsAnswered++; currentStreak = 0;
+        currentScore = safeScore;
+        sound('wrong');
+    }
+    updateHeader(); saveLocalGame();
+    setTimeout(() => {
+        currentQuestionIndex++;
+        if (currentQuestionIndex >= CONFIG.totalQuestions) finishGame();
+        else { isProcessing=false; questionTimeLeft=0; renderQuestion(); }
+    }, timedOut ? 1500 : 1900);
+}
+function use50() {
+    if (lifelines.fifty || isProcessing) return;
+    lifelines.fifty=true; sound('click');
+    shuffle(currentOptions.filter(o=>!o.correct)).slice(0,2).forEach(o=>o.element.classList.add('eliminated'));
+    updateLifelines(); saveLocalGame();
+}
+function useChange() {
+    if (lifelines.change || isProcessing) return;
+    const pool = currentQuestionIndex < CONFIG.easyCount ? EASY : HARD;
+    const usedIds = new Set(currentQuestions.map(q=>q.id));
+    const candidates = pool.filter(q=>!usedIds.has(q.id));
+    if (!candidates.length) { showToast('لا يوجد سؤال بديل مناسب حالياً.'); return; }
+    lifelines.change=true; sound('click');
+    currentQuestions[currentQuestionIndex] = candidates[Math.floor(Math.random()*candidates.length)];
+    questionTimeLeft = 0; renderQuestion(); saveLocalGame();
+}
+function useHint() {
+    if (lifelines.hint || isProcessing) return;
+    lifelines.hint=true; sound('hint');
+    const correct = currentOptions.find(o=>o.correct)?.text || '';
+    const clean = correct.replace(/^["“”'\s]+/, '').replace(/^ال/, '').trim();
+    showToast(`💡 التلميح: تبدأ الإجابة الصحيحة بحرف «${clean.charAt(0) || '؟'}»`);
+    updateLifelines(); saveLocalGame();
+}
+function useAudience() {
+    if (lifelines.audience || isProcessing) return;
+    lifelines.audience=true; sound('hint');
+    const seed = hashSeed((currentQuestions[currentQuestionIndex]?.question || '') + todayKey());
+    const rng = seededRng(seed);
+    let correctPct = 55 + Math.floor(rng()*25);
+    const remain = 100 - correctPct;
+    const others = [Math.floor(rng()*remain), Math.floor(rng()*remain), 0];
+    others[2] = Math.max(0, remain - others[0] - others[1]);
+    const values = currentOptions.map(o=>o.correct ? correctPct : others.shift());
+    const chart = $('audienceChart'); chart.innerHTML='';
+    ['أ','ب','ج','د'].forEach((letter, i)=>{
+        const row=document.createElement('div'); row.className='bar-row';
+        const l=document.createElement('strong'); l.textContent=letter;
+        const track=document.createElement('div'); track.className='bar-track';
+        const bar=document.createElement('div'); bar.className='bar'; bar.style.width=values[i]+'%'; track.appendChild(bar);
+        const v=document.createElement('strong'); v.textContent=values[i]+'%';
+        row.append(l,track,v); chart.appendChild(row);
+    });
+    updateLifelines(); saveLocalGame(); showModal('audienceModal');
+}
+
+function initQuestions(mode) {
+    currentMode = mode;
+    if (mode === 'daily') {
+        const rng = seededRng(hashSeed('daily-' + todayKey()));
+        const easy = shuffle(EASY, rng).slice(0, CONFIG.easyCount);
+        const hard = shuffle(HARD, rng).slice(0, CONFIG.totalQuestions-CONFIG.easyCount);
+        currentQuestions = [...easy, ...hard];
+    } else {
+        currentQuestions = [...shuffle(EASY).slice(0,CONFIG.easyCount), ...shuffle(HARD).slice(0,CONFIG.totalQuestions-CONFIG.easyCount)];
+    }
+}
+function startGame(mode='classic') {
+    hideModal('welcomeModal'); hideModal('resultsModal'); hideModal('resumeModal');
+    currentMode=mode; initQuestions(mode); currentQuestionIndex=0; currentScore=0; safeScore=0; currentStreak=0; bestStreakThisGame=0; correctCount=0; questionsAnswered=0; isProcessing=false;
+    lifelines={fifty:false,change:false,hint:false,audience:false}; clearLocalGame();
+    sound('start'); renderQuestion(); updateHeader(); saveLocalGame();
+}
+function resumeGame(data) {
+    hideModal('resumeModal');
+    currentMode=data.currentMode; currentQuestions=data.currentQuestions; currentQuestionIndex=data.currentQuestionIndex; currentScore=data.currentScore; safeScore=data.safeScore; currentStreak=data.currentStreak; bestStreakThisGame=data.bestStreakThisGame; correctCount=data.correctCount; questionsAnswered=data.questionsAnswered; lifelines=data.lifelines;
+    isProcessing=false; currentOptions=[]; renderQuestion();
+    if (data.questionTimeLeft) beginTimer(Math.min(data.questionTimeLeft, questionTime()));
+    showToast('▶ تم استئناف اللعبة.');
+}
+
+async function authPlayer() {
+    const name = $('usernameInput').value.trim();
+    const password = $('passwordInput').value;
+    if (name.length < 2 || name.length > 24) { showToast('⚠️ الاسم يجب أن يكون بين حرفين و24 حرفاً.'); return; }
+    if (password.length < 3) { showToast('⚠️ اختر كلمة مرور من 3 محارف على الأقل.'); return; }
+    $('authBtn').disabled=true; $('authBtn').textContent='⏳ جارٍ التحقق...';
+    try {
+        let users = {};
+        const res = await fetch(CONFIG.firebaseUsers, {cache:'no-store'});
+        if (res.ok) users = (await res.json()) || {};
+        const key = normalizeText(name);
+        const existing = Object.values(users).find(u => normalizeText(u?.name) === key);
+        if (existing && existing.password !== password) { showToast('❌ كلمة المرور غير صحيحة لهذا الاسم.'); return; }
+        if (!existing) {
+            const create = await fetch(CONFIG.firebaseUsers, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({name, nameKey:key, password, createdAt:new Date().toISOString()})});
+            if (!create.ok) throw new Error('user-create-failed');
+            showToast('✅ تم إنشاء الحساب بنجاح.');
+        } else showToast(`مرحباً بعودتك يا ${name} 🎮`);
+        currentPlayer=name;
+        localStorage.setItem(CONFIG.storage.player,currentPlayer);
+        $('playerNameStat').textContent=currentPlayer;
+        $('welcomeName').textContent=currentPlayer;
+        hideModal('authModal'); showModal('welcomeModal'); updateMiniProfile();
+    } catch (e) {
+        // يسمح باللعب المحلي في حال انقطاع الشبكة.
+        currentPlayer=name; localStorage.setItem(CONFIG.storage.player,currentPlayer); hideModal('authModal'); showModal('welcomeModal'); updateMiniProfile();
+        showToast('ℹ️ تعذر الاتصال بالسحابة، سيتم اللعب محلياً والمزامنة لاحقاً.');
+    } finally { $('authBtn').disabled=false; $('authBtn').textContent='🚀 دخول / إنشاء حساب'; }
+}
+
+function logout() {
+    clearLocalGame(); currentPlayer=''; currentQuestions=[]; stopTimer(); localStorage.removeItem(CONFIG.storage.player); hideAllModals(); showModal('authModal'); $('usernameInput').value=''; $('passwordInput').value=''; $('questionText').textContent='ابدأ اللعبة من القائمة للبدء.'; updateHeader(); }
+function hideAllModals() { document.querySelectorAll('.modal').forEach(m=>m.classList.remove('show')); document.body.classList.remove('no-scroll'); }
+
+function updateMiniProfile() {
+    const s=getStats(); const level=levelFromXp(s.xp); const box=$('miniProfile'); box.innerHTML='';
+    [['⭐ المستوى',level],['🎮 الألعاب',s.games],['🏆 الأفضل',formatScore(s.bestScore)],['🔥 أفضل سلسلة',s.bestStreak]].forEach(([a,b])=>{ const d=document.createElement('div'); d.className='profile-card'; const sp=document.createElement('span'); sp.textContent=a; const st=document.createElement('strong'); st.textContent=b; d.append(sp,st); box.appendChild(d); });
+}
+function renderProfile() {
+    const s=getStats(); const level=levelFromXp(s.xp); const p=$('profileContent'); p.innerHTML='';
+    const grid=document.createElement('div'); grid.className='profile';
+    [['اللاعب',currentPlayer],['المستوى',level],['XP',s.xp],['XP للمستوى التالي',xpToNext(s.xp)],['أفضل نتيجة',formatScore(s.bestScore)],['الرصيد التراكمي',formatScore(s.totalScore)],['إجابات صحيحة',s.correct],['الأسئلة المُجابة',s.answered]].forEach(([a,b])=>{const d=document.createElement('div'); d.className='profile-card'; const sp=document.createElement('span');sp.textContent=a;const st=document.createElement('strong');st.textContent=b;d.append(sp,st);grid.appendChild(d);});
+    p.appendChild(grid);
+    const h=document.createElement('h3'); h.style.marginTop='18px'; h.style.color='var(--gold)'; h.textContent='🏅 الإنجازات'; p.appendChild(h);
+    const list=document.createElement('div'); list.className='achievement-list';
+    const achievements=[['first','🎮 أول لعبة','أكمل أول جولة'],['millionaire','👑 بطل المليون','احصل على 1,000,000 حسنة'],['perfect','💯 إجابات كاملة','أجب عن كل الأسئلة بشكل صحيح'],['noLifelines','🧠 بدون مساعدة','أكمل لعبة دون وسائل مساعدة'],['daily','🔥 تحدي اليوم','أكمل تحدي اليوم'],['streak5','🔥 سلسلة خماسية','حقق 5 إجابات صحيحة متتالية']];
+    achievements.forEach(([k,title,desc])=>{ const row=document.createElement('div'); row.className='achievement'+(s.achievements?.[k]?'':' locked'); const a=document.createElement('div'); a.textContent=title; const b=document.createElement('span'); b.className='small'; b.textContent=s.achievements?.[k]?'مفتوحة ✅':desc; row.append(a,b); list.appendChild(row); });
+    p.appendChild(list);
+}
+
+function updateStatsAfterGame(xp) {
+    const s=getStats(); const noLifelines=Object.values(lifelines).every(v=>!v);
+    s.games += 1; s.bestScore=Math.max(s.bestScore,currentScore); s.totalScore += currentScore; s.correct += correctCount; s.answered += questionsAnswered; s.xp += xp; s.bestStreak=Math.max(s.bestStreak,bestStreakThisGame);
+    s.achievements.first=true; if(currentScore>=1000000)s.achievements.millionaire=true; if(correctCount===CONFIG.totalQuestions)s.achievements.perfect=true; if(noLifelines && currentScore>0)s.achievements.noLifelines=true; if(currentMode==='daily')s.achievements.daily=true; if(bestStreakThisGame>=5)s.achievements.streak5=true;
+    saveStats(s); return s;
+}
+
+async function finishGame() {
+    stopTimer(); clearLocalGame(); isProcessing=true;
+    const noLifelines=Object.values(lifelines).every(v=>!v);
+    const xp=calculateXp(currentScore,correctCount,currentMode,noLifelines,bestStreakThisGame);
+    const stats=updateStatsAfterGame(xp);
+    $('finalScore').textContent=formatScore(currentScore);
+    $('resultSub').textContent=currentScore>=1000000?'🎉 مبروك! حصدت المليون حسنة كاملة!':'الرصيد النهائي المحقق';
+    $('resultCorrect').textContent=`${correctCount}/${CONFIG.totalQuestions}`;
+    $('resultStreak').textContent=bestStreakThisGame;
+    $('resultXP').textContent=xp;
+    $('resultTitle').textContent=currentScore>=1000000?'👑 بطل المليون حسنة':(currentScore>=safeScore && safeScore>0?'انتهت الجولة — نتيجة ممتازة!':'انتهت اللعبة');
+    const ach=$('resultAchievements'); ach.innerHTML='';
+    const earned=[]; if(stats.achievements.millionaire && currentScore>=1000000)earned.push('👑 بطل المليون'); if(stats.achievements.perfect && correctCount===10)earned.push('💯 إجابات كاملة'); if(noLifelines && currentScore>0)earned.push('🧠 بدون مساعدة'); if(currentMode==='daily')earned.push('🔥 تحدي اليوم'); if(bestStreakThisGame>=5)earned.push('🔥 سلسلة خماسية');
+    if(earned.length){ earned.forEach(t=>{const d=document.createElement('div');d.className='achievement';d.textContent=t+' ✅';ach.appendChild(d);}); } else { const d=document.createElement('div');d.className='small';d.textContent='استمر — الإنجازات بانتظارك!';ach.appendChild(d); }
+    showModal('resultsModal');
+    if(currentScore>=1000000) celebrate();
+    pendingSave=true; $('saveStatus').textContent='⏳ جارٍ حفظ النتيجة...';
+    const result={name:currentPlayer,score:currentScore,date:new Date().toISOString(),dateKey:todayKey(),weekKey:weekKey(),mode:currentMode,correctCount,questionsAnswered,xp,bestStreak:bestStreakThisGame,lifelinesUsed:Object.values(lifelines).filter(Boolean).length};
+    const ok=await saveResultCloud(result);
+    pendingSave=false; $('saveStatus').textContent=ok?'✅ تم حفظ النتيجة سحابياً.':'📴 تم حفظها محلياً وستتم مزامنتها عند عودة الاتصال.';
+    isProcessing=false;
+}
+function getPending(){try{return JSON.parse(localStorage.getItem(CONFIG.storage.pending))||[];}catch{return[];}}
+function setPending(v){localStorage.setItem(CONFIG.storage.pending,JSON.stringify(v.slice(-30)));}
+async function flushPendingResults() {
+    const pending=getPending();
+    if(!pending.length) return true;
+    const remain=[];
+    try {
+        for(const item of pending){
+            const r=await fetch(CONFIG.firebaseLeaderboard,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(item)});
+            if(!r.ok) remain.push(item);
+        }
+        setPending(remain); return remain.length===0;
+    } catch { return false; }
+}
+async function saveResultCloud(result) {
+    const queue=getPending(); queue.push(result); setPending(queue);
+    return flushPendingResults();
+}
+
+async function renderLeaderboard() {
+    const list=$('leaderboardList'); list.innerHTML='';
+    const loading=document.createElement('li'); loading.className='empty'; loading.textContent='⏳ جارٍ جلب النتائج...'; list.appendChild(loading);
+    try {
+        const res=await fetch(CONFIG.firebaseLeaderboard,{cache:'no-store'}); if(!res.ok) throw new Error('leaderboard-fetch');
+        const data=(await res.json())||{}; const rows=Object.values(data).filter(x=>x && x.name);
+        const map={};
+        rows.forEach(r=>{const key=normalizeText(r.name); if(!map[key]) map[key]={name:r.name,best:0,total:0,today:0}; map[key].best=Math.max(map[key].best,Number(r.score)||0); map[key].total+=(Number(r.score)||0); if(r.dateKey===todayKey())map[key].today+=(Number(r.score)||0);});
+        let arr=Object.values(map);
+        if(activeBoard==='best') arr.sort((a,b)=>b.best-a.best); else if(activeBoard==='today') arr=arr.filter(x=>x.today>0).sort((a,b)=>b.today-a.today); else arr.sort((a,b)=>b.total-a.total);
+        arr=arr.slice(0,20); list.innerHTML='';
+        if(!arr.length){const e=document.createElement('li');e.className='empty';e.textContent='لا توجد نتائج مسجلة بعد.';list.appendChild(e);return;}
+        arr.forEach((p,i)=>{const li=document.createElement('li');li.className='board-item';const rank=document.createElement('div');rank.className='rank';rank.textContent=i<3?['🥇','🥈','🥉'][i]:'#'+(i+1);const name=document.createElement('div');name.className='board-name';name.textContent=p.name;const score=document.createElement('div');score.className='board-score';score.textContent=formatScore(activeBoard==='best'?p.best:(activeBoard==='today'?p.today:p.total))+' حسنة';li.append(rank,name,score);list.appendChild(li);});
+    } catch { list.innerHTML=''; const e=document.createElement('li'); e.className='empty'; e.innerHTML='تعذر الاتصال بالمتصدرين حالياً.<br><span class="small">ستبقى نتائجك محفوظة محلياً.</span>'; list.appendChild(e); }
+}
+
+function shareText(){return `🏆 حصلت على ${formatScore(currentScore)} حسنة في لعبة «من سيربح المليون حسنة»! ${currentMode==='daily'?'🔥 في تحدي اليوم! ':''}هل تستطيع تحطيم نتيجتي؟\n${location.href}`;}
+function shareWhatsApp(){window.open('https://api.whatsapp.com/send?text='+encodeURIComponent(shareText()),'_blank','noopener,noreferrer');}
+function shareFacebook(){window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href)+'&quote='+encodeURIComponent(shareText()),'_blank','noopener,noreferrer');}
+
+function celebrate(){ const layer=$('confettiLayer'); layer.style.display='block'; layer.innerHTML=''; const colors=['#d4af37','#22c55e','#38bdf8','#ef4444','#a78bfa','#f59e0b']; for(let i=0;i<90;i++){const el=document.createElement('div');el.className='confetti';el.style.left=Math.random()*100+'vw';el.style.background=colors[Math.floor(Math.random()*colors.length)];el.style.animationDuration=(2+Math.random()*3)+'s';el.style.animationDelay=(Math.random()*1.8)+'s';layer.appendChild(el);} setTimeout(()=>{layer.style.display='none';},6500); sound('win'); }
+function showToast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),3200); }
+
+function sound(type){ if(!soundEnabled) return; try { const ctx=new (window.AudioContext||window.webkitAudioContext)(); const now=ctx.currentTime; const osc=ctx.createOscillator(); const gain=ctx.createGain(); osc.connect(gain); gain.connect(ctx.destination); const presets={start:[523,659],select:[300],correct:[660,880],wrong:[220,160],hint:[520,740],click:[400],win:[523,659,784,1047]}; const seq=presets[type]||[440]; seq.forEach((f,i)=>{osc.frequency.setValueAtTime(f,now+i*.09)}); gain.gain.setValueAtTime(.0001,now); gain.gain.exponentialRampToValueAtTime(.08,now+.02); gain.gain.exponentialRampToValueAtTime(.0001,now+Math.max(.2,seq.length*.09+.12)); osc.start(now); osc.stop(now+Math.max(.25,seq.length*.09+.18)); setTimeout(()=>ctx.close(),700); } catch {} }
+
+function applyTheme(){ const light=localStorage.getItem(CONFIG.storage.theme)==='light'; document.body.classList.toggle('light',light); $('themeBtn').textContent=light?'🌙':'🌓'; }
+function toggleTheme(){const light=!document.body.classList.contains('light');localStorage.setItem(CONFIG.storage.theme,light?'light':'dark');applyTheme();}
+function toggleSound(){soundEnabled=!soundEnabled;localStorage.setItem(CONFIG.storage.sound,soundEnabled?'on':'off');$('soundBtn').textContent=soundEnabled?'🔊':'🔇';if(soundEnabled)sound('click');}
+
+$('authBtn').addEventListener('click',authPlayer);
+$('startClassicBtn').addEventListener('click',()=>startGame('classic'));
+$('startDailyBtn').addEventListener('click',()=>startGame('daily'));
+$('newGameBtn').addEventListener('click',()=>showModal('welcomeModal'));
+$('dailyTopBtn').addEventListener('click',()=>isProcessing?showToast('⏳ أكمل السؤال الحالي أولاً.'):startGame('daily'));
+$('leaderboardTopBtn').addEventListener('click',()=>{renderLeaderboard();showModal('leaderboardModal');});
+$('profileTopBtn').addEventListener('click',()=>{renderProfile();showModal('profileModal');});
+$('viewLeaderboardBtn').addEventListener('click',()=>{hideModal('resultsModal');renderLeaderboard();showModal('leaderboardModal');});
+$('playAgainBtn').addEventListener('click',()=>startGame(currentMode));
+$('shareWhatsAppBtn').addEventListener('click',shareWhatsApp); $('shareFacebookBtn').addEventListener('click',shareFacebook);
+$('logoutBtn').addEventListener('click',logout); $('profileLogoutBtn').addEventListener('click',logout);
+$('life5050').addEventListener('click',use50); $('lifeChange').addEventListener('click',useChange); $('lifeHint').addEventListener('click',useHint); $('lifeAudience').addEventListener('click',useAudience);
+$('themeBtn').addEventListener('click',toggleTheme); $('soundBtn').addEventListener('click',toggleSound);
+$('resumeBtn').addEventListener('click',()=>{const c=restoreCandidate(); if(c) resumeGame(c); else {hideModal('resumeModal'); startGame('classic');}});
+$('discardResumeBtn').addEventListener('click',()=>{clearLocalGame();hideModal('resumeModal');showModal('welcomeModal');});
+
+document.querySelectorAll('[data-close]').forEach(btn=>btn.addEventListener('click',()=>hideModal(btn.dataset.close)));
+document.querySelectorAll('[data-board]').forEach(btn=>btn.addEventListener('click',()=>{activeBoard=btn.dataset.board;document.querySelectorAll('[data-board]').forEach(b=>b.classList.toggle('active',b===btn));renderLeaderboard();}));
+
+document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){const visible=document.querySelector('.modal.show'); if(visible && visible.id!=='authModal') hideModal(visible.id); return;}
+    if(isProcessing) return;
+    const k=e.key.toLowerCase();
+    if(['1','2','3','4'].includes(k) && currentOptions.length) selectOption(Number(k)-1);
+    else if(k==='m')use50(); else if(k==='c')useChange(); else if(k==='h')useHint(); else if(k==='a')useAudience();
+});
+
+window.addEventListener('beforeunload',()=>{saveLocalGame();});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)saveLocalGame();});
+
+async function boot(){
+    applyTheme(); $('soundBtn').textContent=soundEnabled?'🔊':'🔇'; updateHeader();
+    if(!currentPlayer){showModal('authModal');return;}
+    $('welcomeName').textContent=currentPlayer; hideModal('authModal');
+    const candidate=restoreCandidate();
+    if(candidate) showModal('resumeModal'); else {showModal('welcomeModal');updateMiniProfile();}
+    // Try flushing offline results silently.
+    if(getPending().length) flushPendingResults().catch(()=>{});
+}
+
+if('serviceWorker' in navigator && location.protocol.startsWith('http')) { navigator.serviceWorker.register('./sw.js').catch(()=>{}); }
+boot();
+</script>
+</body>
+</html>

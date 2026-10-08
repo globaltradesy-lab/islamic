@@ -1,0 +1,12 @@
+{
+  "name": "من سيربح المليون حسنة",
+  "short_name": "المليون حسنة",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#070b17",
+  "theme_color": "#0b1021",
+  "description": "لعبة معلومات إسلامية ترفيهية مع تحدي يومي ولوحة متصدرين.",
+  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
